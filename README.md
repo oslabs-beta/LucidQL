@@ -1,1 +1,1 @@
-# GraphQL-Visualizer
+# GraphQL Visualizer
