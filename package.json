@@ -11,12 +11,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/d3": "^5.7.2",
+    "@types/d3-selection-multi": "^1.0.8",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
+    "@types/topojson": "^3.2.2",
+    "d3-selection": "^2.0.0",
+    "d3-selection-multi": "^1.0.1",
     "lodash": "^4.17.20",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.21"
+    "react-graph-vis": "^1.0.5",
+    "react-hot-loader": "^4.12.21",
+    "topojson": "^3.0.2",
+    "vis-react": "^0.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",

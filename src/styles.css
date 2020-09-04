@@ -1,0 +1,16 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  .vis-react {
+    width: 65rem;
+    height: 40rem;
+    border: none;
+    padding: 2rem;
+    display: block;
+    margin: 0 auto;
+  }
+  .vis-react-title {
+    text-align: center;
+  }
+  

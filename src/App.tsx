@@ -1,15 +1,18 @@
-import React from 'react';
+import React from "react";
+import OtherGraph from './OtherGraph'
 
+import "./styles.css";
+import VisReact from './VisReact';
 
-
-class App extends React.PureComponent {
-    render() {
-        return (
-            <div>
-                <h1>Hello World!</h1>
-            </div>
-        );
-    }
+function App() {
+    return (
+        <div className="vis-react">
+            <OtherGraph />
+            <VisReact />
+        </div>
+    );
 }
+
+
 
 export default App;
