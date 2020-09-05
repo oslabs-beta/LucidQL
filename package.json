@@ -11,9 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/d3": "^5.7.2",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "codemirror": "^5.57.0",
+    "d3": "^6.1.1",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
     "lodash": "^4.17.20",
