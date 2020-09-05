@@ -8,7 +8,6 @@ function App() {
     return (
         <div className="vis-react">
             <OtherGraph />
-            <VisReact />
         </div>
     );
 }
