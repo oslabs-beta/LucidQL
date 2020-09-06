@@ -3,10 +3,11 @@
     text-align: center;
   }
   .graph-div {
-    width: 65rem;
-    height: 40rem;
+    display: flex;
+    width: 80rem;
+    height: 50rem;
     border: none;
-    padding: 2rem;
+    padding: 1rem;
     display: block;
     margin: 0 auto;
   }

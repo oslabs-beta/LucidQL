@@ -66,19 +66,19 @@ var FORCE = (function (nsp) {
                 .call(updateLink);
         },
 
-        dragStarted = (d) => {
-            if (!d3.event.active) nsp.force.alphaTarget(0.3).restart();
+        dragStarted = (event, d) => {
+            if (!event.active) nsp.force.alphaTarget(0.3).restart();
             d.fx = d.x;
             d.fy = d.y
         },
 
-        dragging = (d) => {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y
+        dragging = (event, d) => {
+            d.fx = event.x;
+            d.fy = event.y
         },
 
-        dragEnded = (d) => {
-            if (!d3.event.active) nsp.force.alphaTarget(0);
+        dragEnded = (event, d) => {
+            if (!event.active) nsp.force.alphaTarget(0);
             d.fx = null;
             d.fy = null
         },
