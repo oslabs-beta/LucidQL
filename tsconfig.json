@@ -3,7 +3,7 @@
         // Target latest version of ECMAScript.
         "target": "esnext",
         // path to output directory
-        "outDir": "./dist/",
+        "outDir": "./build/",
         // enable strict null checks as a best practice
         "strictNullChecks": true,
         // Search under node_modules for non-relative imports.
@@ -40,3 +40,13 @@
         "importHelpers": true
     },
 }
+// {
+//     "compilerOptions": {
+//         "target": "es5",
+//         "jsx": "react",
+//         "module": "es2015"
+//     },
+//     "exclude": [
+//         "build"
+//     ]
+// }

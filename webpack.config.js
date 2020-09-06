@@ -31,6 +31,13 @@ module.exports = {
       }
     ]
   },
+  devServer: {
+    publicPath: '/build',
+    proxy: {
+      '/': 'http://localhost:3030',
+    },
+    hot: true,
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',

@@ -1,17 +1,43 @@
-import React from "react";
-import OtherGraph from './OtherGraph'
-
+import React, { useState, useEffect } from 'react'
+import VisGraph from './OtherGraph'
 import "./styles.css";
-import VisReact from './VisReact';
+import { RecoilRoot, atom, useRecoilState } from 'recoil'
+import "regenerator-runtime/runtime";
 
-function App() {
+
+export const dataState = atom({
+    key: 'dataState',
+    default: {}
+})
+
+
+const App: React.FC = () => {
+    const [data, setDataState] = useRecoilState(dataState);
+
+    useEffect(() => {
+        const getData = async () => {
+            const response = await fetch('/db/pg/draw');
+            const json = await response.json()
+            setDataState(json);
+        };
+
+        getData();
+    }, [])
+
     return (
-        <div className="vis-react">
-            <OtherGraph />
+        <div className="graph-div">
+            <VisGraph />
         </div>
     );
 }
 
+function Root() {
+    return (
+        <RecoilRoot>
+            <App />
+        </RecoilRoot>
+    )
+}
 
 
-export default App;
+export default Root;
