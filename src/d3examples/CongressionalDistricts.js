@@ -10,7 +10,7 @@ var FORCE = (function (nsp) {
 
     var
         width = 1080,
-        height = 250,
+        height = 600,
         color = d3.scaleOrdinal(d3.schemeCategory10),
 
         initForce = (nodes, links) => {
@@ -130,7 +130,18 @@ class App extends React.Component {
                     { "name": "fruit", "id": 0 },
                     { "name": "apple", "id": 1 },
                     { "name": "orange", "id": 2 },
-                    { "name": "banana", "id": 3 }
+                    { "name": "banana", "id": 3 },
+                    {
+                        "id": 'people',
+                        "name": 'people',
+                    },
+                    { "id": 'gender0', "name": 'gender' },
+                    {
+                        id: 'species_id1',
+                        label: 'species_id',
+                        color: 'red',
+                        shape: 'circle'
+                    }
                 ],
             links:
                 [

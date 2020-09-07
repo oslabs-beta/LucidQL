@@ -1,7 +1,3 @@
-
-
-
-
 function createGraph(data) {
     const colors = ['red', 'blue', 'green', 'orange', 'purple', 'gray']
     let nodes = [];
