@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { dbLink } from '../../App'
-import { useRecoilState } from 'recoil';
+import { state } from '../../App'
+import { useRecoilState, atom } from 'recoil';
 import { Modal } from './Modal'
 
 
 const LinkContainer: React.FC = () => {
-    const [showContainer, setShowContainer] = useState(true)
-    const [link, setLink] = useRecoilState(dbLink)
+    const [showContainer, setShowContainer] = useState(true);
+    // const [showModal, setShowModal] = useRecoilState(showModal);
+    const [data, setData] = useRecoilState(state);
 
     useEffect(() => {
         toggleScrollLock();
-    }, [showContainer])
+    }, [data])
 
     const onSubmit = (event) => {
         event.preventDefault(event);
-        if ((event.target.link.value).trim() !== '') setShowContainer(false)
-        setLink(event.target.link.value)
+        if ((event.target.link.value).trim() !== '')
+            setData({ link: event.target.link.value, modal: false });
         // console.log((event.target.link.value).trim());
     };
 
     const closeModal = () => {
-        setShowContainer(false)
+        setData({ ...data, modal: false });
     };
 
     const toggleScrollLock = () => {
@@ -29,7 +30,7 @@ const LinkContainer: React.FC = () => {
 
     return (
         <React.Fragment>
-            {showContainer ? (
+            {data.modal ? (
                 <Modal
                     onSubmit={onSubmit}
                     closeModal={closeModal}
