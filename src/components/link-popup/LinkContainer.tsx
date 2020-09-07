@@ -1,44 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { state } from '../../App'
+import { state } from '../../App';
 import { useRecoilState, atom } from 'recoil';
-import { Modal } from './Modal'
-
+import { Modal } from './Modal';
+import { json } from 'd3';
+import 'regenerator-runtime/runtime';
 
 const LinkContainer: React.FC = () => {
-    const [showContainer, setShowContainer] = useState(true);
-    // const [showModal, setShowModal] = useRecoilState(showModal);
-    const [data, setData] = useRecoilState(state);
+  const [showContainer, setShowContainer] = useState(true);
+  // const [showModal, setShowModal] = useRecoilState(showModal);
+  const [data, setData] = useRecoilState(state);
 
-    useEffect(() => {
-        toggleScrollLock();
-    }, [data])
+  useEffect(() => {
+    toggleScrollLock();
+  }, [data]);
 
-    const onSubmit = (event) => {
-        event.preventDefault(event);
-        if ((event.target.link.value).trim() !== '')
-            setData({ link: event.target.link.value, modal: false });
-        // console.log((event.target.link.value).trim());
-    };
+  const fetchSchema = (link) => {
+    fetch('/db/pg/sdl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ uri: link }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setData({ ...data, modal: false, schema: response });
+      });
+  };
 
-    const closeModal = () => {
-        setData({ ...data, modal: false });
-    };
+  const onSubmit = async (event) => {
+    event.preventDefault(event);
+    if (event.target.link.value.trim() !== '') {
+      fetchSchema(event.target.link.value);
+      setData({ link: event.target.link.value, modal: false });
+    }
+    // console.log((event.target.link.value).trim());
+  };
 
-    const toggleScrollLock = () => {
-        document.querySelector('html').classList.toggle('scroll-lock');
-    };
+  const closeModal = () => {
+    setData({ ...data, modal: false });
+  };
 
-    return (
-        <React.Fragment>
-            {data.modal ? (
-                <Modal
-                    onSubmit={onSubmit}
-                    closeModal={closeModal}
-                />
-            ) : null}
-        </React.Fragment>
+  const toggleScrollLock = () => {
+    document.querySelector('html').classList.toggle('scroll-lock');
+  };
 
-    )
-}
+  return (
+    <React.Fragment>
+      {data.modal ? <Modal onSubmit={onSubmit} closeModal={closeModal} /> : null}
+    </React.Fragment>
+  );
+};
 
 export default LinkContainer;

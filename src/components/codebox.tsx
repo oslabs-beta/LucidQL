@@ -3,9 +3,7 @@ import { UnControlled as CodeMirror } from 'react-codemirror2';
 import '../../node_modules/codemirror/mode/javascript/javascript';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/rubyblue.css';
-const {
-  packagejsonFile,
-} = require('../downloadHelperFunctions/packagejsonFile');
+const { packagejsonFile } = require('../downloadHelperFunctions/packagejsonFile');
 const { connectTODB } = require('../downloadHelperFunctions/connectToDB');
 const { schemaFile } = require('../downloadHelperFunctions/schemaFile');
 const { serverFile } = require('../downloadHelperFunctions/serverFile');
@@ -16,9 +14,7 @@ const FileSaver = require('file-saver');
 
 const CodeBox: React.FC = () => {
   //below will download all the files
-  const handleDownloadFiles = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleDownloadFiles = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const zip = new JSZip();
     // zip.file('Hello.txt', 'Hello World\n');
@@ -29,9 +25,7 @@ const CodeBox: React.FC = () => {
     zip.folder('canvasQL').file('server.js', serverFile());
     //make sure to add zip folder for connectToDB and schemaFile
 
-    zip
-      .folder('canvasQL')
-      .file('schema.js', 'Hi, I am test-schema will have to go here');
+    zip.folder('canvasQL').file('schema.js', 'Hi, I am test-schema will have to go here');
     zip.generateAsync({ type: 'blob' }).then(function (content: any) {
       FileSaver.saveAs(content, 'canvasQL.zip');
     });
@@ -47,9 +41,7 @@ const CodeBox: React.FC = () => {
           lineNumbers: true,
         }}
       />
-      <button onClick={(e) => handleDownloadFiles(e)}>
-        Download All Files
-      </button>
+      <button onClick={(e) => handleDownloadFiles(e)}>Download All Files</button>
     </div>
   );
 };

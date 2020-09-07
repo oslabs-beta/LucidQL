@@ -79,13 +79,7 @@
     .attr('fill', function (d) {
       return 'red';
     })
-    .call(
-      d3
-        .drag()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended)
-    );
+    .call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
 
   function ticked() {
     link
