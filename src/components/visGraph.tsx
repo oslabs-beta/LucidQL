@@ -52,9 +52,8 @@ const options = {
 
 const style = {
     display: "flex",
-    justifyContent: "center",
-    width: "1000px",
-    height: "1000px",
+    width: "40rem",
+    height: "40rem",
     border: "1px solid black",
 }
 
