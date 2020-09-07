@@ -1,10 +1,10 @@
-<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from 'react'
 import VisGraph from './components/visGraph'
 import { RecoilRoot, atom, useRecoilState, useRecoilValue } from 'recoil'
 import LinkContainer from './components/link-popup/LinkContainer'
 
 import "./styles.css";
+import CodeBox from './components/codebox';
 
 
 export const dbLink = atom({
@@ -22,7 +22,7 @@ const App: React.FC = () => {
     return (
         <div className="graph-div">
             <LinkContainer />
-            <VisGraph />
+            <CodeBox />
         </div>
     );
 }
@@ -37,21 +37,3 @@ function Root() {
 
 
 export default Root;
-=======
-import React from 'react';
-import CodeBox from './components/codebox';
-import * as _d3 from 'd3';
-
-class App extends React.PureComponent {
-  render() {
-    return (
-      <div>
-        <h1>Hello World!</h1>
-        <CodeBox />
-      </div>
-    );
-  }
-}
-
-export default App;
->>>>>>> 5f1137bc690226232370516f301370aa572451ba
