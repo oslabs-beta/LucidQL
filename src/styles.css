@@ -29,6 +29,15 @@
   padding: 1rem;
 }
 
+.empty-graph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40rem;
+  height: 40rem;
+  border: 1px solid black;
+}
+
 .graph {
   border: 1px solid black;
 }
@@ -131,6 +140,16 @@ body {
 .scroll-lock {
   overflow: hidden;
   /* margin-right: 17px; */
+}
+
+.wholeCodeBox {
+  width: 40rem;
+  height: 40rem;
+}
+
+.CodeMirror {
+  width: 40rem;
+  height: 40rem;
 }
 
 /* #wrapper {
