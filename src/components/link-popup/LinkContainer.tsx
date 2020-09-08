@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { state } from '../../App';
-import { useRecoilState, atom } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Modal } from './Modal';
-import { json } from 'd3';
 import 'regenerator-runtime/runtime';
 
 const LinkContainer: React.FC = () => {
-  const [showContainer, setShowContainer] = useState(true);
-  // const [showModal, setShowModal] = useRecoilState(showModal);
   const [data, setData] = useRecoilState(state);
 
   useEffect(() => {

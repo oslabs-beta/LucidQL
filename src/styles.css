@@ -3,13 +3,6 @@
   text-align: center;
 }
 
-/* .navbar {
-  overflow: hidden;
-  position: fixed; 
-  top: 0; 
-  width: 100%; 
-} */
-
 .sticky-nav {
   position: sticky;
   top: 0;
@@ -17,6 +10,7 @@
   z-index: 10;
   border-bottom: 1px solid rgb(130, 130, 130);
 }
+
 .logo {
   width: 1.5%;
 }
