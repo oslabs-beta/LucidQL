@@ -142,15 +142,23 @@ body {
   /* margin-right: 17px; */
 }
 
-.wholeCodeBox {
-  width: 40rem;
-  height: 40rem;
+@media (min-width: 700px) {
+  .graph,
+  .CodeMirror {
+    width: 40rem;
+    height: 40rem;
+  }
 }
 
-.CodeMirror {
+/* .graph .wholeCodeBox {
   width: 40rem;
   height: 40rem;
-}
+} */
+
+/* .CodeMirror {
+  width: 40rem;
+  height: 40rem;
+} */
 
 /* #wrapper {
   overflow-x: hidden;
