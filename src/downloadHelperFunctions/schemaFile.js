@@ -1,7 +1,7 @@
 function schemaFile(schema) {
   const fileContent =
     `const { makeExecutableSchema } = require('graphql-tools');\n` +
-    `const db = require('../dbConnect');\n${schema}`;
+    `const db = require('./connectToDB');\n${schema}`;
   return fileContent;
 }
 

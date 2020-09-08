@@ -8,7 +8,7 @@ function packagejsonFile() {
     "scripts": {
         "start": "nodemon server/server.js"
       },
-    "author": "Stanley Huang, Martin Chiang, Darwin Sinchi",
+    "author": "CanvasQL Team - Stanley Huang, Martin Chiang, Darwin Sinchi",
     "license": "ISC",
     "dependencies": {
       "dotenv": "^8.2.0",
