@@ -9,15 +9,7 @@ const pgController = {};
 
 // Middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
-  let db;
-  if (!req.body.uri) {
-    db = new Pool({
-      connectionString:
-        'postgres://ordddiou:g5OjOyAIFxf-tsLk1uwu4ZOfbJfiCFbh@ruby.db.elephantsql.com:5432/ordddiou',
-    });
-  } else {
-    db = new Pool({ connectionString: req.body.uri.trim() });
-  }
+  let db = new Pool({ connectionString: req.body.uri.trim() });
 
   db.query(pgQuery)
     .then((data) => {

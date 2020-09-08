@@ -2,6 +2,8 @@ import Graph from 'react-graph-vis';
 import React, { Component, useEffect, useState } from 'react';
 import { atom, selector, useRecoilValue, useRecoilState } from 'recoil';
 import createGraph from '../UI';
+import { state } from '../App';
+import { useRecoilStateLoadable } from 'recoil';
 
 const options = {
   edges: {
@@ -58,19 +60,29 @@ const style = {
 const VisGraph: React.FC = () => {
   const [fetched, setFetched] = useState(false);
   const [graph, setGraph] = useState({});
+  const [data, setData] = useRecoilState(state);
+
+  const getData = () => {
+    fetch('/db/pg/draw', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({ uri: data.link }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        // console.log(response);
+        setGraph(createGraph(response));
+        setFetched(true);
+      });
+  };
 
   useEffect(() => {
-    const getData = () => {
-      fetch('/db/pg/draw')
-        .then((response) => response.json())
-        .then((data) => {
-          let result = createGraph(data);
-          setGraph(result);
-          setFetched(true);
-        });
-    };
+    // console.log(graph);
     getData();
-  }, []);
+  }, [data]);
 
   if (fetched) {
     return (
@@ -78,8 +90,12 @@ const VisGraph: React.FC = () => {
         <Graph className="graph" graph={graph} options={options} style={style} />
       </div>
     );
-  } else {
-    return <div>Loading...</div>;
+  } else if (!fetched) {
+    return (
+      <div className="empty-graph">
+        <p>Please enter URI to display GraphQL endpoints...</p>
+      </div>
+    );
   }
 };
 

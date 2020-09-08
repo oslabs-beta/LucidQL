@@ -4,11 +4,11 @@ function packagejsonFile() {
     "name": "CanvasQL",
     "version": "1.0.0",
     "description": "Visualizer for GraphQL APIs + a schema and resolver creator",
-    "main": "server.js,
+    "main": "server.js",
     "scripts": {
         "start": "nodemon server/server.js"
       },
-    "author": "Stanley Huang, Martin Chiang, Darwin Sinchi",
+    "author": "CanvasQL Team - Stanley Huang, Martin Chiang, Darwin Sinchi",
     "license": "ISC",
     "dependencies": {
       "dotenv": "^8.2.0",

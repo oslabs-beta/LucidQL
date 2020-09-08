@@ -7,7 +7,7 @@ router.post('/sdl', pgController.getPGTables, pgController.assembleSDLSchema, (r
   res.status(200).json(res.locals.SDLSchema);
 });
 
-router.get('/draw', pgController.getPGTables, pgController.compileData, (req, res) => {
+router.post('/draw', pgController.getPGTables, pgController.compileData, (req, res) => {
   // console.log(res.locals.SDLSchema);
   res.status(200).json(res.locals.compiledData);
 });

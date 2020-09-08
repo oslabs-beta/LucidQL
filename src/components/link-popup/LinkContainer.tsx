@@ -21,15 +21,15 @@ const LinkContainer: React.FC = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        setData({ ...data, modal: false, schema: response });
+        setData({ ...data, link: link, modal: false, schema: response });
       });
   };
 
   const onSubmit = async (event) => {
     event.preventDefault(event);
     if (event.target.link.value.trim() !== '') {
+      // setData({ ...data, link: event.target.link.value, modal: false });
       fetchSchema(event.target.link.value);
-      setData({ link: event.target.link.value, modal: false });
     }
     // console.log((event.target.link.value).trim());
   };

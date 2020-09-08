@@ -13,6 +13,7 @@ export const state = atom({
     link: '',
     modal: true,
     schema: '',
+    visGraph: {},
   },
 });
 
@@ -23,9 +24,9 @@ const App: React.FC = () => {
     setData({ ...data, modal: true });
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   return (
     <>
