@@ -1,10 +1,14 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import logo from '../../../public/logo3.png';
 
 const TopNav: React.FC = ({ showModal }) => {
   return (
     <Navbar className="sticky-nav" collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Navbar.Brand href="#home">CanvasQL</Navbar.Brand>
+      <img className="logo" src={logo} />
+      <Navbar.Brand className="logo-text" href="#home">
+        CanvasQL
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">

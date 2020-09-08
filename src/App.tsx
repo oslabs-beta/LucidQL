@@ -5,6 +5,7 @@ import LinkContainer from './components/link-popup/LinkContainer';
 import TopNav from './components/navbars/TopNav';
 import CodeBox from './components/codebox';
 import './styles.css';
+import logo from '../public/logo1.png';
 
 export const state = atom({
   key: 'state',

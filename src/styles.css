@@ -15,6 +15,16 @@
   top: 0;
   width: 100%;
   z-index: 10;
+  border-bottom: 1px solid rgb(130, 130, 130);
+}
+.logo {
+  width: 1.5%;
+}
+
+.logo-text {
+  font-family: 'Patua One', cursive;
+  margin-left: 2px;
+  font-size: 22px;
 }
 
 .graph-div {
