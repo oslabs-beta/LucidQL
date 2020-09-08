@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 const { singular } = require('pluralize');
 const {
   toCamelCase, toPascalCase, typeSet, getPrimaryKeyType,
@@ -88,7 +91,9 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
         console.log('refTableName: ', refTableName, '\nforeignFKeys: ', foreignFKeys, '\nforeignFKey: ', foreignFKey);
         console.log('-----end-----');
         const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
-        relationships += `\nm-m    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
+        relationships += `\nm-m    ${manyToManyTable}: [${toPascalCase(
+          singular(manyToManyTable)
+        )}]`;
       }
     }
   }
