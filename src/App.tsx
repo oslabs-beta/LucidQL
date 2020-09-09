@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import VisGraph from './components/visGraph';
+import VisGraph from './components/visGraph';
 import { RecoilRoot, atom, useRecoilState, useRecoilValue } from 'recoil';
 import LinkContainer from './components/link-popup/LinkContainer';
 import TopNav from './components/navbars/TopNav';
 import CodeBox from './components/codebox';
 import './styles.css';
 import SplitPane from 'react-split-pane';
-import { ForceGraph } from "./forceGraph/ForceGraph";
 
 export const state = atom({
   key: 'state',
@@ -14,7 +13,7 @@ export const state = atom({
     link: '',
     modal: true,
     schema: '',
-    d3Data: {},
+    visGraph: {},
   },
 });
 
@@ -25,13 +24,9 @@ const App: React.FC = () => {
     setData({ ...data, modal: true });
   };
 
-  const nodeHoverTooltip = React.useCallback((node) => {
-    return `<div>${node.name}</div>`;
-  }, []);
-
-  useEffect(() => {
-    console.log('data is: ', data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   return (
     <>
@@ -40,7 +35,7 @@ const App: React.FC = () => {
         <LinkContainer />
         <SplitPane split="vertical" minSize={50}>
           <div className="graph-div">
-            {!data.modal? <ForceGraph data={data.d3Data} nodeHoverTooltip={nodeHoverTooltip} /> : null } 
+            <VisGraph />
           </div>
           <div className="code-box">
             <CodeBox />
