@@ -85,7 +85,7 @@ pgController.compileData = (req, res, next) => {
         };
       }
     }
-    res.locals.compiledData = newTables;
+    res.locals.d3Data = newTables;
     return next();
   } catch (err) {
     return next({

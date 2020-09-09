@@ -45,6 +45,7 @@
 .code-box {
   display: flex;
   background-color: black;
+  width: 40vw;
 }
 
 body {
