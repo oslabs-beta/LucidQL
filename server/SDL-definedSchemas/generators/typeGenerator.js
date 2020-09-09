@@ -136,7 +136,7 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
 };
 
 TypeGenerator._create = function create(tableName, primaryKey, foreignKeys, columns) {
-  return `    ${toCamelCase(`create_${singular(tableName)}`)}(\n${this._typeParams(
+  return `\n    ${toCamelCase(`create_${singular(tableName)}`)}(\n${this._typeParams(
     primaryKey,
     foreignKeys,
     columns,
@@ -145,7 +145,7 @@ TypeGenerator._create = function create(tableName, primaryKey, foreignKeys, colu
 };
 
 TypeGenerator._update = function update(tableName, primaryKey, foreignKeys, columns) {
-  return `    ${toCamelCase(`update_${singular(tableName)}`)}(\n${this._typeParams(
+  return `\n    ${toCamelCase(`update_${singular(tableName)}`)}(\n${this._typeParams(
     primaryKey,
     foreignKeys,
     columns,
@@ -154,9 +154,9 @@ TypeGenerator._update = function update(tableName, primaryKey, foreignKeys, colu
 };
 
 TypeGenerator._destroy = function destroy(tableName, primaryKey) {
-  return `    ${toCamelCase(`delete_${singular(tableName)}`)}(${primaryKey}: ID!): ${toPascalCase(
+  return `\n    ${toCamelCase(`delete_${singular(tableName)}`)}(${primaryKey}: ID!): ${toPascalCase(
     singular(tableName)
-  )}!\n\n`;
+  )}!\n`;
 };
 
 TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns, needId) {

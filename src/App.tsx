@@ -5,7 +5,7 @@ import LinkContainer from './components/link-popup/LinkContainer';
 import TopNav from './components/navbars/TopNav';
 import CodeBox from './components/codebox';
 import './styles.css';
-import logo from '../public/logo1.png';
+import SplitPane from 'react-split-pane';
 
 export const state = atom({
   key: 'state',
@@ -32,13 +32,15 @@ const App: React.FC = () => {
     <>
       <div className="page-content-wrapper">
         <TopNav showModal={showModal} />
-        <div className="graph-div">
-          <LinkContainer />
-          <VisGraph />
+        <LinkContainer />
+        <SplitPane split="vertical" minSize={50}>
+          <div className="graph-div">
+            <VisGraph />
+          </div>
           <div className="code-box">
             <CodeBox />
           </div>
-        </div>
+        </SplitPane>
       </div>
     </>
   );
