@@ -65,9 +65,9 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
 
 // Get table relationships
 TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
-  let relationships = ''; //
+  let relationships = '';
+  const alreadyAddedType = []; // cache to track which relation has been added or not
   for (const refTableName in tables[tableName].referencedBy) {
-    const alreadyAddedType = [];
     // example1 (table name: film): refTableName: planets_in_films, vessels_in_films, people_in_films, species_in_films
     // example2 (when table name is : species): refTableName: people, species_in_films
     // example3 (when table name is : planets:): refTableName: planets_in_films, species, people
@@ -117,27 +117,26 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
           alreadyAddedType.push(refTableName);
           const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
           // console.log('\nm-m-----start----- tableName:', tableName);
-          // console.log(
-          //   'Will be add(manyToManyTable): ',
-          //   manyToManyTable,
-          //   '\nrefTableName: ',
-          //   refTableName,
-          //   '\nforeignFKeys: ',
-          //   foreignFKeys,
-          //   '\nforeignFKey: ',
-          //   foreignFKey
-          // );
+          // console.log('Will be add(manyToManyTable): ', manyToManyTable, '\nrefTableName: ', refTableName, '\nforeignFKeys: ', foreignFKeys, '\nforeignFKey: ', foreignFKey);
           // console.log('-----end-----');
           relationships += `\n    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
         }
       }
     }
   }
+  for (const FKTableName in tables[tableName].foreignKeys) {
+    const object = tables[tableName].foreignKeys[FKTableName];
+    const refTableName = object.referenceTable;
+    const refTableType = toPascalCase(singular(refTableName));
+    // console.log(tableName, refTableType, refTableName, refTableType)
+    relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
+  }
+
   return relationships;
 };
 
 TypeGenerator._create = function create(tableName, primaryKey, foreignKeys, columns) {
-  return `\n    ${toCamelCase(`create_${singular(tableName)}`)}(\n${this._typeParams(
+  return `    ${toCamelCase(`create_${singular(tableName)}`)}(\n${this._typeParams(
     primaryKey,
     foreignKeys,
     columns,
@@ -146,7 +145,7 @@ TypeGenerator._create = function create(tableName, primaryKey, foreignKeys, colu
 };
 
 TypeGenerator._update = function update(tableName, primaryKey, foreignKeys, columns) {
-  return `\n    ${toCamelCase(`update_${singular(tableName)}`)}(\n${this._typeParams(
+  return `    ${toCamelCase(`update_${singular(tableName)}`)}(\n${this._typeParams(
     primaryKey,
     foreignKeys,
     columns,
@@ -155,9 +154,9 @@ TypeGenerator._update = function update(tableName, primaryKey, foreignKeys, colu
 };
 
 TypeGenerator._destroy = function destroy(tableName, primaryKey) {
-  return `\n    ${toCamelCase(`delete_${singular(tableName)}`)}(${primaryKey}: ID!): ${toPascalCase(
+  return `    ${toCamelCase(`delete_${singular(tableName)}`)}(${primaryKey}: ID!): ${toPascalCase(
     singular(tableName)
-  )}!\n`;
+  )}!\n\n`;
 };
 
 TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns, needId) {
