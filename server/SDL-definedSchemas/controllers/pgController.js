@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Pool } = require('pg');
-const SchemaGenerator = require('../generators/schemaGenerator');
 const { table } = require('console');
+const SchemaGenerator = require('../generators/schemaGenerator');
 
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 
@@ -9,26 +9,16 @@ const pgController = {};
 
 // Middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
-  // const db = new Pool({ connectionString: req.query.uri });
-  const db = new Pool({
-    connectionString:
-      'postgres://ordddiou:g5OjOyAIFxf-tsLk1uwu4ZOfbJfiCFbh@ruby.db.elephantsql.com:5432/ordddiou',
-  });
+  let db = new Pool({ connectionString: req.body.uri.trim() });
+
   db.query(pgQuery)
     .then((data) => {
       res.locals.tables = data.rows[0].tables;
-      console.log('res.locals.tables: ', res.locals.tables);
-      // console.log('pgQuery: ', pgQuery);
       return next();
     })
-    .catch(
-      (err) => res.json('error')
-      // next({
-      //   log: err,
-      //   status: 500,
-      //   message: { err: 'There was a problem making database query' },
-      // })
-    );
+    .catch((err) => res.json('error'));
+
+  console.log(req.body.uri);
 };
 
 // Middleware function for assembling SDL schema
@@ -50,7 +40,7 @@ pgController.compileData = (req, res, next) => {
     const OriginalTables = res.locals.tables;
     const newTables = {};
 
-    for (let table in OriginalTables) {
+    for (const table in OriginalTables) {
       const currentTable = OriginalTables[table];
       // if this is not a joing table
       if (
@@ -59,11 +49,11 @@ pgController.compileData = (req, res, next) => {
           Object.keys(currentTable.foreignKeys).length + 1
       ) {
         const pointsTo = [];
-        for (let objName in currentTable.foreignKeys) {
+        for (const objName in currentTable.foreignKeys) {
           pointsTo.push(currentTable.foreignKeys[objName].referenceTable);
         }
         const referecedBy = [];
-        for (let refTableName in currentTable.referencedBy) {
+        for (const refTableName in currentTable.referencedBy) {
           if (
             !OriginalTables[refTableName].foreignKeys ||
             Object.keys(OriginalTables[refTableName].columns).length !==
@@ -72,10 +62,9 @@ pgController.compileData = (req, res, next) => {
             referecedBy.push(refTableName);
           } else {
             // else it's a join table
-            for (let foreignKey in OriginalTables[refTableName].foreignKeys) {
+            for (const foreignKey in OriginalTables[refTableName].foreignKeys) {
               const joinedTable =
-                OriginalTables[refTableName].foreignKeys[foreignKey]
-                  .referenceTable;
+                OriginalTables[refTableName].foreignKeys[foreignKey].referenceTable;
               if (joinedTable !== table) {
                 referecedBy.push(joinedTable);
               }
@@ -83,7 +72,7 @@ pgController.compileData = (req, res, next) => {
           }
         }
         const columns = [];
-        for (let columnName in currentTable.columns) {
+        for (const columnName in currentTable.columns) {
           if (columnName !== currentTable.primaryKey) {
             columns.push(columnName);
           }

@@ -16,16 +16,10 @@ SchemaGenerator.assembleSchema = function assembleSchema(tables) {
     queryType += TypeGenerator.queries(tableName, tableData);
     mutationType += TypeGenerator.mutations(tableName, tableData);
     customTypes += TypeGenerator.customTypes(tableName, tables);
-    if (
-      !foreignKeys ||
-      Object.keys(columns).length === Object.keys(foreignKeys).length + 1
-    ) {
+    if (!foreignKeys || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
       queryResolvers += ResolverGenerator.queries(tableName, tableData);
       mutationResolvers += ResolverGenerator.mutations(tableName, tableData);
-      relationshipResolvers += ResolverGenerator.getRelationships(
-        tableName,
-        tables
-      );
+      relationshipResolvers += ResolverGenerator.getRelationships(tableName, tables);
     }
   }
   return (
