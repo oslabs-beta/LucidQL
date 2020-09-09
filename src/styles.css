@@ -25,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  height: 90vh;
+  height: 95vh;
   padding: 1rem;
 }
 
@@ -33,8 +33,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40rem;
-  height: 40rem;
+  width: 100%;
+  height: 100%;
   border: 1px solid black;
 }
 
@@ -55,6 +55,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  /* overflow-y: hidden; */
 }
 
 *,
@@ -89,13 +90,12 @@ body {
 }
 
 @media screen and (min-width: 500px) {
-  /* Center the Modal! */
   .modal-area {
     left: 50%;
     top: 50%;
     height: auto;
     transform: translate(-50%, -50%);
-    max-width: 30em;
+    max-width: 55em;
     max-height: calc(100% - 1em);
   }
 }
@@ -142,13 +142,16 @@ body {
   /* margin-right: 17px; */
 }
 
-@media (min-width: 700px) {
-  .graph,
-  .CodeMirror {
-    width: 40rem;
-    height: 40rem;
-  }
+.CodeMirror {
+  width: 100%;
+  height: 70rem;
+  overflow: hidden;
 }
+
+/* @media (min-width: 700px) {
+  .graph,
+
+} */
 
 /* .graph .wholeCodeBox {
   width: 40rem;

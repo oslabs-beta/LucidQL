@@ -52,9 +52,8 @@ const options = {
 
 const style = {
   display: 'flex',
-  width: '40rem',
-  height: '40rem',
-  border: '1px solid black',
+  width: '100rem',
+  height: '70rem',
 };
 
 const VisGraph: React.FC = () => {

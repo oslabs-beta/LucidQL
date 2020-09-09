@@ -40,6 +40,8 @@
     "react-hot-loader": "^4.12.21",
     "react-pro-sidebar": "^0.4.4",
     "react-router": "^5.2.0",
+    "react-split": "^2.0.9",
+    "react-split-pane": "^2.0.3",
     "recoil": "0.0.10",
     "topojson": "^3.0.2",
     "vis-react": "^0.5.1"
