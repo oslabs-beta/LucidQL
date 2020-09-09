@@ -55,43 +55,65 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
 
 // Get table relationships
 TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
-  let relationships = ''; //
+  let relationships = ''; 
+  const alreadyAddedType = []; // cache to track which relation has been added or not
   for (const refTableName in tables[tableName].referencedBy) {
     // example1 (table name: film): refTableName: planets_in_films, vessels_in_films, people_in_films, species_in_films
     // example2 (when table name is : species): refTableName: people, species_in_films
-
+    // example3 (when table name is : planets:): refTableName: planets_in_films, species, people
     const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
 
     // One-to-one: when we can find tableName in foreignRefBy, that means this is a direct one to one relation
     if (foreignRefBy && foreignRefBy[tableName]) {
-      const refTableType = toPascalCase(singular(refTableName));
-      relationships += `\n1-1    ${toCamelCase(singular(reftableName))}: ${refTableType}`;
+      if (!alreadyAddedType.includes(refTableName)) { // check if this refTableType has already been added by other tableName
+        alreadyAddedType.push(refTableName)
+        const refTableType = toPascalCase(singular(refTableName));
+        relationships += `\n1-1    ${toCamelCase(singular(reftableName))}: ${refTableType}`;
+      }
     }
 
     // One-to-many: check if this is a join table, and if it's not, we can add relations)
     // example2: people table will meet this criteria
+    // example3: species and people table will meet this criteria
     else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1) {
-      const refTableType = toPascalCase(singular(refTableName));
-      // example2: refTableType: Person
-      relationships += `\n1-x    ${toCamelCase(refTableName)}: [${refTableType}]`;
-      // add 'people: [Person]' and to relation
+      if (!alreadyAddedType.includes(refTableName)) { // check if this refTableType has already been added by other tableName
+        alreadyAddedType.push(refTableName);
+        const refTableType = toPascalCase(singular(refTableName));
+        // example2: refTableType: Person
+        // console.log('\n1-x -----start----- tableName:', tableName);
+        // console.log('Will be add(refTableName): ', refTableName, '\nrefTableType: ', refTableType);
+        // console.log('-----end-----');
+        relationships += `\n1-x    ${toCamelCase(refTableName)}: [${refTableType}]`;
+        // add 'people: [Person]' and to relation
+      }
     }
 
     // Many-to-many relations (so now handling join tables!)
     for (const foreignFKey in foreignFKeys) {
-      // example1(ex: planets_in_films): foreignFKey: film_id(will be filtered out), planet_id (will be added as planets[planet])
+      // example1(ex: planets_in_films): foreignFKey: film_id(will be filtered out), planet_id (will be added as planets[Planet])
       // example1: final output will apply on vessels_in_films, people_in_films, species_in_films as well
       // example2: foreignFKey: species_id(will be filtered out), homeworld_id(will be added to relation as planets: [Planet]):
       // example2: foreignFKey: species_id(will be filtered out), film_id(will be added to relation as films: [Film]):
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) { // Do not include original table in output
-        console.log('\n-----start----- tableName:', tableName);
-        console.log('refTableName: ', refTableName, '\nforeignFKeys: ', foreignFKeys, '\nforeignFKey: ', foreignFKey);
-        console.log('-----end-----');
-        const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
-        relationships += `\nm-m    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
+        if (!alreadyAddedType.includes(refTableName)) { // check if this refTableType has already been added by other tableName
+          alreadyAddedType.push(refTableName);
+          const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
+          // console.log('\nm-m-----start----- tableName:', tableName);
+          // console.log('Will be add(manyToManyTable): ', manyToManyTable, '\nrefTableName: ', refTableName, '\nforeignFKeys: ', foreignFKeys, '\nforeignFKey: ', foreignFKey);
+          // console.log('-----end-----');
+          relationships += `\nm-m    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
+        }
       }
     }
   }
+  for (const FKTableName in tables[tableName].foreignKeys) {
+    const object = tables[tableName].foreignKeys[FKTableName];
+    const refTableName = object.referenceTable
+    const refTableType = toPascalCase(singular(refTableName));
+    console.log(tableName, refTableType, refTableName, refTableType)
+    relationships += `\nFK    ${toCamelCase(refTableName)}: [${refTableType}]`;
+  }
+
   return relationships;
 };
 

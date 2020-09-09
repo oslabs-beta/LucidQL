@@ -1,0 +1,7 @@
+.drag-main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  width: 80vw;
+}
