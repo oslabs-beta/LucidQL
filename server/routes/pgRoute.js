@@ -2,15 +2,16 @@ const router = require('express').Router();
 const pgController = require('../SDL-definedSchemas/controllers/pgController');
 // const pgProgController = require('../programmatically-definedSchemas/controllers-prog/pg-progController');
 
-router.post('/sdl', pgController.getPGTables, pgController.assembleSDLSchema, (req, res) => {
+router.post('/sdl', pgController.getPGTables, pgController.assembleSDLSchema, pgController.compileData, (req, res) => {
   // console.log(res.locals.SDLSchema);
-  res.status(200).json(res.locals.SDLSchema);
+  res.status(200).json({ schema: res.locals.SDLSchema, d3Data: res.locals.d3Data });
 });
 
-router.post('/draw', pgController.getPGTables, pgController.compileData, (req, res) => {
-  // console.log(res.locals.SDLSchema);
-  res.status(200).json(res.locals.compiledData);
-});
+// No need for now
+// router.post('/draw', pgController.getPGTables, pgController.compileData, (req, res) => {
+//   // console.log(res.locals.SDLSchema);
+//   res.status(200).json(res.locals.compiledData);
+// });
 
 // router.get('/prog',
 //   pgController.getPGTables,

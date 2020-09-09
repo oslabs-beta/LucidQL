@@ -21,7 +21,8 @@ const LinkContainer: React.FC = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        setData({ ...data, link: link, modal: false, schema: response });
+        console.log(response);
+        setData({ ...data, link: link, modal: false, schema: response.schema, d3Data: response.d3Data });
       });
   };
 
