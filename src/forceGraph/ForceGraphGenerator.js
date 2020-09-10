@@ -1,25 +1,13 @@
 import * as d3 from "d3";
 import styles from "./ForceGraph.module.css";
-// import * as selection from "d3-selection"
-// import { event as currentEvent} from 'd3-selection';
-// const d3 = Object.assign(selection, require("d3-selection"), require("d3-drag"), require("d3-force"), require("d3-zoom"), require("d3-transition"));
-// d3.getEvent = function () {
-//   return require("d3-selection").event;
-// }
-// const currentEvent = require("d3-selection").event;
 
 export function runForceGraph( container, data, nodeHoverTooltip) {
-  // copy the data
-  const { TableNodes, ColumnNodes, linksToTables, linksToColumns } = data
-  const newTableNodes = TableNodes.map((d) => Object.assign({}, d));
-  const newColumnNodes = ColumnNodes.map((d) => Object.assign({}, d));
-  const newlinksToTables = linksToTables.map((d) => Object.assign({}, d));
-  const newlinksToColumns = linksToColumns.map((d) => Object.assign({}, d));
-  // console.log(newTableNodes); console.log(newColumnNodes); console.log(newlinksToTables); console.log(newlinksToColumns);
+  const { tableNodes, columnNodes, referencedBy, pointsTo, linksToColumns } = data
+  // console.log(tableNodes, columnNodes, referencedBy, pointsTo, linksToColumns)
 
-  // get the container’s width and height :
+  // get the container’s width and height from bounding rectangle:
   const containerRect = container.getBoundingClientRect();
-  console.log('containerRect: ', containerRect)
+  // console.log('containerRect: ', containerRect)
   const height = containerRect.height;
   const width = containerRect.width;
   
@@ -42,10 +30,11 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
 
     const dragEnd = (event, d) => {
       if (!event.active) simulation.alphaTarget(0); // if no event.active, stop the simulation
-      // d.fx = d.x;
-      // d.fy = d.y;
+      // below: node will stay after drag ends
       d.fx = event.x;
       d.fy = event.y;
+
+      // below: node will fly back after drag ends
       // d.fx = null;
       // d.fy = null;
     };
@@ -57,6 +46,7 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
       .on("end", dragEnd);
   };
 
+  
   // Handle the node tooltip generation: add the tooltip element to the graph
   const tooltip = document.querySelector("#graph-tooltip");
   if (!tooltip) {
@@ -86,11 +76,10 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
       .style("opacity", 0);
   };
 
-  // TableNodes, ColumnNodes, linksToTables, linksToColumns
   const simulation = d3
-    .forceSimulation([...newTableNodes, ...newColumnNodes])
-    .force("link", d3.forceLink(newlinksToTables).id(d => d.id).distance(400).strength(1))
-    .force("line", d3.forceLink(newlinksToColumns).id(d => d.id).distance(50))
+    .forceSimulation([...tableNodes, ...columnNodes])
+    .force("link", d3.forceLink([...referencedBy, ...pointsTo]).id(d => d.id).distance(400).strength(1))
+    .force("line", d3.forceLink(linksToColumns).id(d => d.id).distance(50))
     .force("charge", d3.forceManyBody().strength(-600)) // Negative numbers indicate a repulsive force and positive numbers an attractive force. Strength defaults to -30 upon installation.
     .force('collision', d3.forceCollide().radius(d => d.r || 20))
     .force("x", d3.forceX()) // These two siblings push nodes towards the desired x and y position.
@@ -110,7 +99,7 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
     .attr("stroke", "#000")
     .attr("stroke-opacity", 0.6)
     .selectAll("line")
-    .data(newlinksToColumns)
+    .data(linksToColumns)
     .join("line")
     .attr("stroke-width", d => Math.sqrt(d.value))
 
@@ -128,13 +117,13 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
     .attr("id", String)
     .attr("viewBox", "0 -5 10 10") // //the bound of the SVG viewport for the current SVG fragment. defines a coordinate system 10 wide and 10 high starting on (0,-5)
     .attr("refX", 25) // x coordinate for the reference point of the marker. If circle is bigger, this need to be bigger.
-    .attr("refY", -1.5) // what's this?
-    .attr("orient", "auto") // what's this?
-    .attr("markerWidth", 13) // what's this?
-    .attr("markerHeight", 13) // what's this?
+    .attr("refY", -1.5) 
+    .attr("orient", "auto") 
+    .attr("markerWidth", 13) 
+    .attr("markerHeight", 13) 
     .attr('xoverflow', 'visible')
-    .append("svg:path") // what's this?
-    .attr("d", "M 0,-5 L 10,0 L 0,5") // what's this?
+    .append("svg:path") 
+    .attr("d", "M 0,-5 L 10,0 L 0,5") 
     .attr('fill', '#999')
     .style('stroke','none')
 
@@ -142,7 +131,7 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
   const path = svg
     .append("svg:g")
     .selectAll("path")
-    .data(newlinksToTables)
+    .data([...referencedBy, ...pointsTo])
     .join("svg:path")
     .attr("fill", "none")
     .style('stroke', d => d.type === "pointsTo" ? "orange" : "blue")
@@ -155,7 +144,7 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
     .attr("stroke", "#fff")
     .attr("stroke-width", 1)
     .selectAll("circle")
-    .data([...newTableNodes, ...newColumnNodes])
+    .data([...tableNodes, ...columnNodes])
     .join("circle")
     .attr("r", d => d.primary ? 30 : 15)
     .attr("fill", d => d.primary ? "#9D00A0" : "powderblue")
@@ -168,7 +157,7 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
   const label = svg.append("g")
     .attr("class", "labels")
     .selectAll("text")
-    .data([...newTableNodes, ...newColumnNodes])
+    .data([...tableNodes, ...columnNodes])
     .join("text")
     .attr('text-anchor', 'middle')
     .attr('dominant-baseline', 'central')
@@ -192,10 +181,6 @@ export function runForceGraph( container, data, nodeHoverTooltip) {
     node
       .attr("cx", d => d.x)
       .attr("cy", d => d.y);
-
-    // node (restrict to bound)
-    //   .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
-    //   .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
 
     label
       .attr("x", d =>  d.x )

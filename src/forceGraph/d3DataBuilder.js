@@ -1,5 +1,5 @@
 export default function generateNodeAndLink(data) {
-  const newData = { TableNodes:[], ColumnNodes:[], linksToTables:[], linksToColumns:[] };
+  const newData = { tableNodes:[], columnNodes:[], referencedBy:[], pointsTo: [], linksToColumns:[] };
   
   for (let tableName in data) {
     // handle table node
@@ -8,7 +8,7 @@ export default function generateNodeAndLink(data) {
       name: tableName,
       primary: true,
     }
-    newData.TableNodes.push(parentNode);
+    newData.tableNodes.push(parentNode);
   
     // handle links between tables
     data[tableName].pointsTo.forEach(targetTable => {
@@ -18,7 +18,7 @@ export default function generateNodeAndLink(data) {
         type: "pointsTo",
         // type: 'foreignKeyTo',
       }
-      newData.linksToTables.push(parentLink);
+      newData.pointsTo.push(parentLink);
     })
     data[tableName].referecedBy.forEach(refTable => {
       const parentLink = {
@@ -27,7 +27,7 @@ export default function generateNodeAndLink(data) {
         type: "referecedBy",
         // type: 'referecedBy'
       }
-      newData.linksToTables.push(parentLink);
+      newData.referencedBy.push(parentLink);
     })
 
     // handle links between column and its parent
@@ -40,7 +40,7 @@ export default function generateNodeAndLink(data) {
         source: `Parent-${tableName}`,
         target: `${tableName}-${columnName}`
       }
-      newData.ColumnNodes.push(childNode);
+      newData.columnNodes.push(childNode);
       newData.linksToColumns.push(childLink)
     })
   }
