@@ -10,7 +10,7 @@ export const Form = ({ onSubmit }) => {
         <input className="form-control" id="link" />
       </div>
       <div className="form-group">
-        <button className="form-control btn btn-primary" type="submit">
+        <button className="form-control btn btn-light" type="submit">
           Submit
         </button>
       </div>

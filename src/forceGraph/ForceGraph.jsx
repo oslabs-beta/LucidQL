@@ -1,12 +1,12 @@
-import React from "react";
-import { runForceGraph } from "./ForceGraphGenerator";
-import styles from "./ForceGraph.module.css";
+import React from 'react';
+import { runForceGraph } from './ForceGraphGenerator';
+import styles from './ForceGraph.module.css';
 import generateNodeAndLink from './d3DataBuilder';
 
 // The ForceGraph component will be the container for the generated force graph
 // and ForceGraphGenerator will generate the graph using D3.
 
-export function ForceGraph({ data, nodeHoverTooltip }) {
+function ForceGraph({ data, nodeHoverTooltip }) {
   // React ref to reference the container element.
   const containerRef = React.useRef(null);
 
@@ -26,3 +26,5 @@ export function ForceGraph({ data, nodeHoverTooltip }) {
   // creating a reference to the div which will wrap the generated graph and nothing more.
   return <div ref={containerRef} className={styles.container} />;
 }
+
+export default ForceGraph;

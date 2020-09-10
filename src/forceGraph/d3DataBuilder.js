@@ -11,11 +11,11 @@ export default function generateNodeAndLink(data) {
     newData.tableNodes.push(parentNode);
   
     // handle links between tables
-    data[tableName].pointsTo.forEach(targetTable => {
+    data[tableName].pointsTo.forEach((targetTable) => {
       const parentLink = {
         source: `Parent-${tableName}`,
         target: `Parent-${targetTable}`,
-        type: "pointsTo",
+        type: 'pointsTo',
         // type: 'foreignKeyTo',
       }
       newData.pointsTo.push(parentLink);
@@ -24,18 +24,18 @@ export default function generateNodeAndLink(data) {
       const parentLink = {
         source: `Parent-${refTable}`,
         target: `Parent-${tableName}`,
-        type: "referecedBy",
+        type: 'referecedBy',
         // type: 'referecedBy'
       }
       newData.referencedBy.push(parentLink);
     })
 
     // handle links between column and its parent
-    data[tableName].columns.forEach(columnName => {
+    data[tableName].columns.forEach((columnName) => {
       const childNode = {
         id: `${tableName}-${columnName}`,
-        name: columnName
-      }
+        name: columnName,
+      };
       const childLink = {
         source: `Parent-${tableName}`,
         target: `${tableName}-${columnName}`
@@ -44,6 +44,6 @@ export default function generateNodeAndLink(data) {
       newData.linksToColumns.push(childLink)
     })
   }
-  console.log(newData)
+  console.log(newData);
   return newData;
 }

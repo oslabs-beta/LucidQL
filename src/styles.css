@@ -3,12 +3,36 @@
   text-align: center;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  /* overflow: hidden; */
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* ---Nav Bar CSS--- */
 .sticky-nav {
   position: sticky;
   top: 0;
   width: 100%;
   z-index: 10;
   border-bottom: 1px solid rgb(130, 130, 130);
+  color: black;
+}
+
+.btn {
+  background-color: #967bb6;
+  color: white;
 }
 
 .logo {
@@ -18,15 +42,46 @@
 .logo-text {
   font-family: 'Patua One', cursive;
   margin-left: 2px;
-  font-size: 22px;
+  font-size: 26px;
+  color: #967bb6;
+  margin-right: 0;
 }
 
+.logo-text2 {
+  font-family: 'Patua One', cursive;
+  margin-left: 2px;
+  font-size: 26px;
+  color: #939393;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  position: sticky;
+  background-color: #f5f5f5;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+  border-top: 1px solid rgb(218, 218, 218);
+}
+
+/* .footer-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: right;
+} */
+
+/* ---Nav Bar CSS--- END*/
+
+/* D3/Visgraph Div */
 .graph-div {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  height: 95vh;
+  height: 90vh;
   padding: 1rem;
+  background-color: #f5f5f5;
 }
 
 .empty-graph {
@@ -42,29 +97,24 @@
   border: 1px solid black;
 }
 
+/* ---Codebox CSS--- */
 .code-box {
-  display: flex;
+  display: inline-flexbox;
+  width: 100%;
   background-color: black;
-  width: 40vw;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-  /* overflow-y: hidden; */
+.CodeMirror-hscrollbar {
+  overflow: hidden;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
+.CodeMirror {
+  width: 100%;
+  height: 70rem;
+  overflow: hidden;
 }
 
+/* ----POPUP LINK BOX---- */
 .modal-cover {
   position: fixed;
   top: 0;
@@ -143,72 +193,69 @@ body {
   /* margin-right: 17px; */
 }
 
-.CodeMirror {
-  width: 100%;
-  height: 70rem;
-  overflow: hidden;
-}
+/* ----POPUP LINK BOX---- END*/
 
-/* @media (min-width: 700px) {
-  .graph,
+/* ---SIDEBAR---- */
 
-} */
-
-/* .graph .wholeCodeBox {
-  width: 40rem;
-  height: 40rem;
-} */
-
-/* .CodeMirror {
-  width: 40rem;
-  height: 40rem;
-} */
-
-/* #wrapper {
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
   overflow-x: hidden;
-  width: 100%;
+  transition: 0.5s;
+  padding-top: 60px;
 }
 
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
 }
 
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
+.sidebar a:hover {
+  color: #f1f1f1;
 }
 
-#sidebar-wrapper .list-group {
-  width: 15rem;
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
 }
 
-#page-content-wrapper {
-  min-width: 100vw;
-  max-width: 200vw;
-  width: 100%;
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+  padding: 10px 15px;
+  border: none;
+  margin: auto;
+  /* margin-top: 20px; */
 }
 
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
+.openbtn:hover {
+  background-color: #444;
 }
 
-@media (min-width: 768px) {
-#sidebar-wrapper {
-  margin-left: 0;
+#main {
+  transition: margin-left 0.5s;
+  margin: 0;
 }
 
-#page-content-wrapper {
-  min-width: 0;
-  width: 100%;
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
 }
-
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: -15rem;
-}
-}
- */
