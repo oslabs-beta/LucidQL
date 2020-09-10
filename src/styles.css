@@ -148,66 +148,64 @@ body {
   overflow: hidden;
 }
 
-/* @media (min-width: 700px) {
-  .graph,
-
-} */
-
-/* .graph .wholeCodeBox {
-  width: 40rem;
-  height: 40rem;
-} */
-
-/* .CodeMirror {
-  width: 40rem;
-  height: 40rem;
-} */
-
-/* #wrapper {
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
   overflow-x: hidden;
-  width: 100%;
+  transition: 0.5s;
+  padding-top: 60px;
 }
 
-#sidebar-wrapper {
-  min-height: 100vh;
-  margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
 }
 
-#sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
-  font-size: 1.2rem;
+.sidebar a:hover {
+  color: #f1f1f1;
 }
 
-#sidebar-wrapper .list-group {
-  width: 15rem;
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
 }
 
-#page-content-wrapper {
-  min-width: 100vw;
-  max-width: 200vw;
-  width: 100%;
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  margin-top: 20px;
 }
 
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
+.openbtn:hover {
+  background-color: #444;
 }
 
-@media (min-width: 768px) {
-#sidebar-wrapper {
-  margin-left: 0;
+#main {
+  transition: margin-left 0.5s;
+  margin: 0;
 }
 
-#page-content-wrapper {
-  min-width: 0;
-  width: 100%;
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
 }
-
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: -15rem;
-}
-}
- */

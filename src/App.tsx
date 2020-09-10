@@ -6,6 +6,7 @@ import TopNav from './components/navbars/TopNav';
 import CodeBox from './components/codebox';
 import './styles.css';
 import SplitPane from 'react-split-pane';
+import Sidebar from './components/sidebar2';
 
 export const state = atom({
   key: 'state',
@@ -30,17 +31,22 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="page-content-wrapper">
-        <TopNav showModal={showModal} />
-        <LinkContainer />
-        <SplitPane split="vertical" minSize={50}>
-          <div className="graph-div">
-            <VisGraph />
-          </div>
-          <div className="code-box">
-            <CodeBox />
-          </div>
-        </SplitPane>
+      <div id="main">
+        <div className="page-content-wrapper">
+          <TopNav showModal={showModal} />
+          <Sidebar />
+
+          <LinkContainer />
+
+          <SplitPane split="vertical" minSize={50}>
+            <div className="graph-div">
+              <VisGraph />
+            </div>
+            <div className="code-box">
+              <CodeBox />
+            </div>
+          </SplitPane>
+        </div>
       </div>
     </>
   );
