@@ -6,7 +6,8 @@ import TopNav from './components/navbars/TopNav';
 import CodeBox from './components/codebox';
 import './styles.css';
 import SplitPane from 'react-split-pane';
-import { ForceGraph } from "./forceGraph/ForceGraph";
+import { ForceGraph } from './forceGraph/ForceGraph';
+import Sidebar from './components/sidebar2';
 
 export const state = atom({
   key: 'state',
@@ -34,20 +35,25 @@ const App: React.FC = () => {
   }, [data]);
 
   return (
-    <>
+    <div id="main">
       <div className="page-content-wrapper">
         <TopNav showModal={showModal} />
+        <Sidebar />
+
         <LinkContainer />
+
         <SplitPane split="vertical" minSize={50}>
           <div className="graph-div">
-            {!data.modal? <ForceGraph data={data.d3Data} nodeHoverTooltip={nodeHoverTooltip} /> : null } 
+            {!data.modal ? (
+              <ForceGraph data={data.d3Data} nodeHoverTooltip={nodeHoverTooltip} />
+            ) : null}
           </div>
           <div className="code-box">
             <CodeBox />
           </div>
         </SplitPane>
       </div>
-    </>
+    </div>
   );
 };
 
