@@ -3,8 +3,16 @@ import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-boots
 import logo from '../../../public/logo3.png';
 
 const TopNav: React.FC = ({ showModal }) => {
+  function openNav() {
+    document.querySelector('#mySidebar').style.width = '250px';
+    document.querySelector('#main').style.marginLeft = '250px';
+  }
+
   return (
     <Navbar className="sticky-nav" collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <button className="openbtn bg-dark" onClick={openNav}>
+        ☰
+      </button>
       <img className="logo" src={logo} />
       <Navbar.Brand className="logo-text" href="#home">
         CanvasQL
