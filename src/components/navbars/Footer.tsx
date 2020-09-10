@@ -8,6 +8,7 @@ import JSZip from 'jszip';
 import FileSaver from 'file-saver';
 import { useRecoilValue } from 'recoil';
 import { state } from '../../App';
+import { Navbar, Nav, Form, Button } from 'react-bootstrap';
 
 const Footer: React.FC = () => {
   const data = useRecoilValue(state);
@@ -26,13 +27,19 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="footer mt-auto py-3 bg-dark text-white">
-      <div className="footer-container">
-        <button className="btn btn-primary" onClick={(e) => handleDownloadFiles(e)}>
-          Download All Files
-        </button>
-      </div>
-    </footer>
+    <Navbar className="footer" collapseOnSelect expand="lg" bg="" variant="">
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto"></Nav>
+        <Nav>
+          <Form inline>
+            <Button className="btn btn-light" onClick={(e) => handleDownloadFiles(e)}>
+              Download All Files
+            </Button>
+          </Form>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

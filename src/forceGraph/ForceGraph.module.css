@@ -1,16 +1,16 @@
 .container {
   width: 100%;
-  height: 80vh;
+  height: 85vh;
   position: relative;
-  background-color: white;
+  /* background-color: #404040; */
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6); */
   /* border: 1px solid black; */
 }
 
 .container svg {
   display: block;
-  width: 85rem;
-  height: 85rem;
+  width: 86rem;
+  height: 86rem;
 }
 
 .primary {

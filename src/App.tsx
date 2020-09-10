@@ -6,9 +6,10 @@ import TopNav from './components/navbars/TopNav';
 import CodeBox from './components/codebox';
 import './styles.css';
 import SplitPane from 'react-split-pane';
-import { ForceGraph } from './forceGraph/ForceGraph';
+import ForceGraph from './forceGraph/ForceGraph';
 import Footer from './components/navbars/Footer';
 import { handleDownloadFiles } from './UI';
+import Sidebar from './components/sidebar2';
 
 export const state = atom({
   key: 'state',
@@ -36,9 +37,10 @@ const App: React.FC = () => {
   }, [data]);
 
   return (
-    <>
+    <div id="main">
       <div className="page-content-wrapper">
         <TopNav showModal={showModal} />
+        <Sidebar />
         <LinkContainer />
         <SplitPane split="vertical" minSize={50} resizerClassName="Resizer" resizerStyle={{ width: '20px' }}>
           <div className="graph-div">
@@ -50,7 +52,7 @@ const App: React.FC = () => {
         </SplitPane>
         <Footer handleDownloadFiles={handleDownloadFiles} />
       </div>
-    </>
+    </div>
   );
 };
 
