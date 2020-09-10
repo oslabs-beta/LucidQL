@@ -1,6 +1,6 @@
-import React from "react";
-import { runForceGraph } from "./ForceGraphGenerator";
-import styles from "./ForceGraph.module.css";
+import React from 'react';
+import { runForceGraph } from './ForceGraphGenerator';
+import styles from './ForceGraph.module.css';
 import generateNodeAndLink from './d3DataBuilder';
 
 // The ForceGraph component will be the container for the generated force graph
