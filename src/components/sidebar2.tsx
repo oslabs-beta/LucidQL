@@ -8,7 +8,7 @@ const SideBar: React.FC = () => {
   return (
     <div id="mySidebar" className="sidebar bg-dark">
       <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>
-        ×
+        x
       </a>
       <a href="#">About</a>
       <a href="#">Services</a>

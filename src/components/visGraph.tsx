@@ -62,7 +62,7 @@ const VisGraph: React.FC = () => {
   const [data, setData] = useRecoilState(state);
 
   const getData = () => {
-    fetch('/db/pg/draw', {
+    fetch('/db/pg/sdl', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const VisGraph: React.FC = () => {
       .then((response) => response.json())
       .then((response) => {
         // console.log(response);
-        setGraph(createGraph(response));
+        setGraph(createGraph(response.d3Data));
         setFetched(true);
       });
   };

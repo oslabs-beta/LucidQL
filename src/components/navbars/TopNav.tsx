@@ -9,30 +9,23 @@ const TopNav: React.FC = ({ showModal }) => {
   }
 
   return (
-    <Navbar className="sticky-nav" collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <button className="openbtn bg-dark" onClick={openNav}>
+    <Navbar className="sticky-nav text-secondary" collapseOnSelect expand="lg" bg="white" variant="white">
+      <button className="openbtn bg-white" onClick={openNav}>
         ☰
       </button>
       <img className="logo" src={logo} />
       <Navbar.Brand className="logo-text" href="#home">
-        CanvasQL
+        Canvas
+      </Navbar.Brand>
+      <Navbar.Brand className="logo-text2" href="#home">
+        QL
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link href="#features">Features</Nav.Link>
-          <Nav.Link href="#pricing">Pricing</Nav.Link>
-          <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
+        <Nav className="mr-auto"></Nav>
         <Nav>
           <Form inline>
-            <Button variant="primary" onClick={showModal}>
+            <Button variant="light" onClick={showModal}>
               Enter DB Link
             </Button>
           </Form>

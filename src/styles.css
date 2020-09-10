@@ -3,12 +3,36 @@
   text-align: center;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  /* overflow: hidden; */
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* ---Nav Bar CSS--- */
 .sticky-nav {
   position: sticky;
   top: 0;
   width: 100%;
   z-index: 10;
   border-bottom: 1px solid rgb(130, 130, 130);
+  color: black;
+}
+
+.btn {
+  background-color: #967bb6;
+  color: white;
 }
 
 .logo {
@@ -18,15 +42,46 @@
 .logo-text {
   font-family: 'Patua One', cursive;
   margin-left: 2px;
-  font-size: 22px;
+  font-size: 26px;
+  color: #967bb6;
+  margin-right: 0;
 }
 
+.logo-text2 {
+  font-family: 'Patua One', cursive;
+  margin-left: 2px;
+  font-size: 26px;
+  color: #939393;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  position: sticky;
+  background-color: #f5f5f5;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+  border-top: 1px solid rgb(218, 218, 218);
+}
+
+/* .footer-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: right;
+} */
+
+/* ---Nav Bar CSS--- END*/
+
+/* D3/Visgraph Div */
 .graph-div {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  height: 95vh;
+  height: 90vh;
   padding: 1rem;
+  background-color: #f5f5f5;
 }
 
 .empty-graph {
@@ -42,29 +97,24 @@
   border: 1px solid black;
 }
 
+/* ---Codebox CSS--- */
 .code-box {
-  display: flex;
+  display: inline-flexbox;
+  width: 100%;
   background-color: black;
-  width: 40vw;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-  /* overflow-y: hidden; */
+.CodeMirror-hscrollbar {
+  overflow: hidden;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
+.CodeMirror {
+  width: 100%;
+  height: 70rem;
+  overflow: hidden;
 }
 
+/* ----POPUP LINK BOX---- */
 .modal-cover {
   position: fixed;
   top: 0;
@@ -143,11 +193,9 @@ body {
   /* margin-right: 17px; */
 }
 
-.CodeMirror {
-  width: 100%;
-  height: 70rem;
-  overflow: hidden;
-}
+/* ----POPUP LINK BOX---- END*/
+
+/* ---SIDEBAR---- */
 
 .sidebar {
   height: 100%;
@@ -186,10 +234,11 @@ body {
 .openbtn {
   font-size: 20px;
   cursor: pointer;
-  color: white;
+  color: black;
   padding: 10px 15px;
   border: none;
-  margin-top: 20px;
+  margin: auto;
+  /* margin-top: 20px; */
 }
 
 .openbtn:hover {
