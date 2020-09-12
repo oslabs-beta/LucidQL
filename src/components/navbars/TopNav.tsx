@@ -15,7 +15,7 @@ const TopNav: React.FC = ({ showModal }) => {
       </button>
       <img className="logo" src={logo} />
       <Navbar.Brand className="logo-text" href="#home">
-        Canvas
+        RESTless
       </Navbar.Brand>
       <Navbar.Brand className="logo-text2" href="#home">
         QL
