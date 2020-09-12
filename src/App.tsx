@@ -8,7 +8,6 @@ import './styles.css';
 import SplitPane from 'react-split-pane';
 import ForceGraph from './forceGraph/ForceGraph';
 import Footer from './components/navbars/Footer';
-import { handleDownloadFiles } from './UI';
 import Sidebar from './components/sidebar2';
 
 export const state = atom({
@@ -29,12 +28,22 @@ const App: React.FC = () => {
   };
 
   const nodeHoverTooltip = React.useCallback((node) => {
-    return `<div>${node.name}</div>`;
+    if (node.primary) return `<button>Add Relations</button><button>Delete</button>`;
+    else return `<button>Delete</button>`;
   }, []);
 
   useEffect(() => {
     console.log('data is: ', data);
   }, [data]);
+
+  const annotation = () => {
+    return (
+      <div style={{ position: 'fixed', top: '10vh', left: '5vw' }}>
+        <h5 style={{ color: 'orange', fontWeight: 'bolder' }}> ⟶ Points To</h5>
+        <h5 style={{ color: 'blue', fontWeight: 'bolder' }}> ⟶ Referenced By</h5>
+      </div>
+    );
+  };
 
   return (
     <div id="main">
@@ -42,15 +51,16 @@ const App: React.FC = () => {
         <TopNav showModal={showModal} />
         <Sidebar />
         <LinkContainer />
-        <SplitPane split="vertical" minSize={50} resizerClassName="Resizer" resizerStyle={{ width: '20px' }}>
+        <SplitPane split="vertical" minSize={100}>
           <div className="graph-div">
+            {!data.modal ? annotation() : null}
             {!data.modal ? <ForceGraph data={data.d3Data} nodeHoverTooltip={nodeHoverTooltip} /> : null}
           </div>
           <div className="code-box">
             <CodeBox />
           </div>
         </SplitPane>
-        <Footer handleDownloadFiles={handleDownloadFiles} />
+        <Footer />
       </div>
     </div>
   );

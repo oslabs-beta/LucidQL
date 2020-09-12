@@ -259,3 +259,20 @@ body {
     font-size: 18px;
   }
 }
+
+/* Resizer bar */
+
+.sc-htpNat.faKpDZ.sc-bdVaJa.cjjWdp {
+  width: 19px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 1);
+  border-right: 5px solid rgba(255, 255, 255, 1);
+}
+
+.sc-htpNat.faKpDZ.sc-bdVaJa.cjjWdp:hover {
+  width: 22px;
+  margin: 0 -6px;
+  cursor: col-resize;
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+}
