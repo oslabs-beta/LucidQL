@@ -24,6 +24,22 @@ const Footer: React.FC = () => {
     zip.generateAsync({ type: 'blob' }).then(function (content: any) {
       FileSaver.saveAs(content, 'canvasQL.zip');
     });
+    writeToDummyServer(data.schema, data.link);
+  };
+
+  const writeToDummyServer = (schema: string, link: string) => {
+    const connectToDBFile = connectToDB(link);
+    const toSchemaFile = schemaFile(schema);
+
+    const postOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ db: connectToDBFile, schema: toSchemaFile }),
+    };
+
+    fetch('/db/pg/writefile', postOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   };
 
   return (

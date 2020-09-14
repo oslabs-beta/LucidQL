@@ -13,7 +13,7 @@ function packagejsonFile() {
     "dependencies": {
       "dotenv": "^8.2.0",
       "express": "^4.17.1",
-      "express-graphql": "^0.11.0",
+      "express-graphql": "^0.9.0",
       "graphql": "^15.3.0",
       "graphql-playground-middleware-express": "^1.7.15",
       "graphql-tools": "^4.0.7",

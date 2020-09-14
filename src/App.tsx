@@ -32,9 +32,9 @@ const App: React.FC = () => {
     else return `<button>Delete</button>`;
   }, []);
 
-  useEffect(() => {
-    console.log('data is: ', data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('data is: ', data);
+  // }, [data]);
 
   const annotation = () => {
     return (
