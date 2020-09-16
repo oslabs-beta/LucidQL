@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const pgRouter = require('./routes/pgRoute');
-const dummyServerController = require('./routes/dummyServer');
+// const dummyServerController = require('./routes/dummyServer');
 // const mySQLRouter = require('./routes/mySQLRoute');
 
 const app = express();

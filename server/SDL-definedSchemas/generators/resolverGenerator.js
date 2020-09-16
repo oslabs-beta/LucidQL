@@ -28,28 +28,14 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
   if (!referencedBy) return '';
   let relationships = `\n  ${toPascalCase(singular(tableName))}: {\n`;
   for (const refTableName in referencedBy) {
-    const {
-      referencedBy: foreignRefBy,
-      foreignKeys: foreignFKeys,
-      columns: foreignColumns,
-    } = tables[refTableName];
+    const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
     const refTableType = toPascalCase(singular(refTableName));
     // One-to-one
     if (foreignRefBy && foreignRefBy[tableName])
-      relationships += this._oneToOne(
-        tableName,
-        primaryKey,
-        refTableName,
-        referencedBy[refTableName]
-      );
+      relationships += this._oneToOne(tableName, primaryKey, refTableName, referencedBy[refTableName]);
     // One-to-many
     else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1)
-      relationships += this._oneToMany(
-        tableName,
-        primaryKey,
-        refTableName,
-        referencedBy[refTableName]
-      );
+      relationships += this._oneToMany(tableName, primaryKey, refTableName, referencedBy[refTableName]);
     // Many-to-many
     for (const foreignFKey in foreignFKeys) {
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) {
@@ -165,17 +151,12 @@ ResolverGenerator._allColumnQuery = function allColumn(tableName) {
   );
 };
 
-ResolverGenerator._createMutation = function createColumn(
-  tableName,
-  primaryKey,
-  foreignKeys,
-  columns
-) {
+ResolverGenerator._createMutation = function createColumn(tableName, primaryKey, foreignKeys, columns) {
   return (
     `    ${toCamelCase(`create_${singular(tableName)}`)}: (parent, args) => {\n` +
-    `      const query = 'INSERT INTO ${tableName}(${Object.values(this._values).join(
-      ', '
-    )}) VALUES(${Object.keys(this._values)
+    `      const query = 'INSERT INTO ${tableName}(${Object.values(this._values).join(', ')}) VALUES(${Object.keys(
+      this._values
+    )
       .map((x) => `$${x}`)
       .join(', ')})';\n` +
     `      const values = [${Object.values(this._values)
@@ -190,18 +171,13 @@ ResolverGenerator._createMutation = function createColumn(
   );
 };
 
-ResolverGenerator._updateMutation = function updateColumn(
-  tableName,
-  primaryKey,
-  foreignKeys,
-  columns
-) {
+ResolverGenerator._updateMutation = function updateColumn(tableName, primaryKey, foreignKeys, columns) {
   let displaySet = '';
-  for (const key in this._values) displaySet += `${this._values[key]}=$${key} `;
+  for (const key in this._values) displaySet += `${this._values[key]}=$${key}, `;
   return (
     `    ${toCamelCase(`update_${singular(tableName)}`)}: (parent, args) => {\n` +
     '      try {\n' +
-    `        const query = 'UPDATE ${tableName} SET ${displaySet} WHERE ${primaryKey} = $${
+    `        const query = 'UPDATE ${tableName} SET ${displaySet.slice(0, displaySet.length - 2)} WHERE ${primaryKey} = $${
       Object.entries(this._values).length + 1
     }';\n` +
     `        const values = [${Object.values(this._values)

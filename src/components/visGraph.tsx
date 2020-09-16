@@ -3,7 +3,6 @@ import React, { Component, useEffect, useState } from 'react';
 import { atom, selector, useRecoilValue, useRecoilState } from 'recoil';
 import createGraph from '../UI';
 import { state } from '../App';
-import { useRecoilStateLoadable } from 'recoil';
 
 const options = {
   edges: {
