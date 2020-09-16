@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const pgRouter = require('./routes/pgRoute');
+// const dummyServerController = require('./routes/dummyServer');
 // const mySQLRouter = require('./routes/mySQLRoute');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.static(path.resolve(__dirname, '../build')));
 
 app.use('/db/pg', pgRouter);
 // app.use('/db/mySQL', mySQLRouter);
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../src/index.html'));
 });

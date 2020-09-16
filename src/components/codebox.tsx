@@ -1,6 +1,6 @@
 import React, { MouseEvent } from 'react';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
-import '../../node_modules/codemirror/mode/javascript/javascript';
+import 'codemirror/mode/javascript/javascript';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
 import { state } from '../App';

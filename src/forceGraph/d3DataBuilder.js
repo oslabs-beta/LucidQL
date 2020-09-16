@@ -1,15 +1,15 @@
 export default function generateNodeAndLink(data) {
-  const newData = { tableNodes:[], columnNodes:[], referencedBy:[], pointsTo: [], linksToColumns:[] };
-  
-  for (let tableName in data) {
+  const newData = { tableNodes: [], columnNodes: [], referencedBy: [], pointsTo: [], linksToColumns: [] };
+
+  for (const tableName in data) {
     // handle table node
     const parentNode = {
       id: `Parent-${tableName}`,
       name: tableName,
       primary: true,
-    }
+    };
     newData.tableNodes.push(parentNode);
-  
+
     // handle links between tables
     data[tableName].pointsTo.forEach((targetTable) => {
       const parentLink = {
@@ -17,18 +17,18 @@ export default function generateNodeAndLink(data) {
         target: `Parent-${targetTable}`,
         type: 'pointsTo',
         // type: 'foreignKeyTo',
-      }
+      };
       newData.pointsTo.push(parentLink);
-    })
-    data[tableName].referecedBy.forEach(refTable => {
+    });
+    data[tableName].referecedBy.forEach((refTable) => {
       const parentLink = {
         source: `Parent-${refTable}`,
         target: `Parent-${tableName}`,
         type: 'referecedBy',
         // type: 'referecedBy'
-      }
+      };
       newData.referencedBy.push(parentLink);
-    })
+    });
 
     // handle links between column and its parent
     data[tableName].columns.forEach((columnName) => {
@@ -38,12 +38,12 @@ export default function generateNodeAndLink(data) {
       };
       const childLink = {
         source: `Parent-${tableName}`,
-        target: `${tableName}-${columnName}`
-      }
+        target: `${tableName}-${columnName}`,
+      };
       newData.columnNodes.push(childNode);
-      newData.linksToColumns.push(childLink)
-    })
+      newData.linksToColumns.push(childLink);
+    });
   }
-  console.log(newData);
+  // console.log(newData);
   return newData;
 }

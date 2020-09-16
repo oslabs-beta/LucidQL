@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 // import VisGraph from './components/visGraph';
 import { RecoilRoot, atom, useRecoilState, useRecoilValue } from 'recoil';
 import LinkContainer from './components/link-popup/LinkContainer';
-import TopNav from './components/navbars/TopNav';
-import CodeBox from './components/codebox';
+import TopNav from './components/nav-bars/TopNav';
+import CodeBox from './components/Codebox';
 import './styles.css';
 import SplitPane from 'react-split-pane';
 import ForceGraph from './forceGraph/ForceGraph';
-import Footer from './components/navbars/Footer';
-import Sidebar from './components/sidebar2';
+import Footer from './components/nav-bars/Footer';
+import Sidebar from './components/Sidebar';
 
 export const state = atom({
   key: 'state',
@@ -32,9 +32,9 @@ const App: React.FC = () => {
     else return `<button>Delete</button>`;
   }, []);
 
-  useEffect(() => {
-    console.log('data is: ', data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('data is: ', data);
+  // }, [data]);
 
   const annotation = () => {
     return (

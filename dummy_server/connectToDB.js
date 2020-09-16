@@ -1,6 +1,5 @@
-function connectToDB(uri) {
-  const dbConnection = `const {Pool} = require('pg');
-const PG_URI = '${uri.trim()}';
+const {Pool} = require('pg');
+const PG_URI = 'postgres://mxnahgtg:V5_1wi1TPrDLRvmsl0pKczgf9SMQy1j6@lallah.db.elephantsql.com:5432/mxnahgtg';
 
 const pool = new Pool({
     connectionString: PG_URI
@@ -12,10 +11,4 @@ module.exports = {
         return pool.query(text, params, callback)
     }
 }
-  `;
-  return dbConnection;
-}
-
-module.exports = {
-  connectToDB,
-};
+  

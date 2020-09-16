@@ -8,8 +8,8 @@ export function runForceGraph(container, data, nodeHoverTooltip) {
   // get the container’s width and height from bounding rectangle:
   const containerRect = container.getBoundingClientRect();
   // console.log('containerRect: ', containerRect)
-  const height = containerRect.height;
-  const width = containerRect.width;
+  const { height } = containerRect;
+  const { width } = containerRect;
 
   // add the option to drag the force graph nodes as part of it’s simulation.
   const drag = (simulation) => {
@@ -143,7 +143,7 @@ export function runForceGraph(container, data, nodeHoverTooltip) {
     .style('stroke', (d) => (d.type === 'pointsTo' ? 'orange' : 'blue'))
     .style('stroke-width', '1.5px')
     .attr('marker-end', 'url(#end)');
-  //The marker-end attribute defines the arrowhead or polymarker that will be drawn at the final vertex of the given shape.
+  // The marker-end attribute defines the arrowhead or polymarker that will be drawn at the final vertex of the given shape.
 
   const node = svg
     .append('g')

@@ -10,8 +10,10 @@ const SideBar: React.FC = () => {
       <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>
         x
       </a>
-      <a href="#">About</a>
-      <a href="#">Services</a>
+      <a href="#">Dashboard</a>
+      <a href="http://localhost:3000/playground" target="_blank">
+        GraphQL Playground
+      </a>
       <a href="#">Clients</a>
       <a href="#">Contact</a>
     </div>
