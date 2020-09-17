@@ -1,10 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 const { singular } = require('pluralize');
-const {
-  toCamelCase,
-  toPascalCase,
-  typeSet,
-  getPrimaryKeyType,
-} = require('../helpers/helperFunctions');
+const { toCamelCase, toPascalCase, typeSet, getPrimaryKeyType } = require('../helpers/helperFunctions');
 
 const TypeGenerator = {};
 
@@ -41,12 +38,11 @@ TypeGenerator.customTypes = function customTypes(tableName, tables) {
   const { primaryKey, foreignKeys, columns } = tables[tableName];
   const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
   if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
-    return `${
-      `  type ${toPascalCase(singular(tableName))} {\n` + `    ${primaryKey}: ${primaryKeyType}!`
-    }${this._columns(primaryKey, foreignKeys, columns)}${this._getRelationships(
-      tableName,
-      tables
-    )}\n  }\n\n`;
+    return `${`  type ${toPascalCase(singular(tableName))} {\n` + `    ${primaryKey}: ${primaryKeyType}!`}${this._columns(
+      primaryKey,
+      foreignKeys,
+      columns
+    )}${this._getRelationships(tableName, tables)}\n  }\n\n`;
   }
   return '';
 };
@@ -71,11 +67,7 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
     // example1 (table name: film): refTableName: planets_in_films, vessels_in_films, people_in_films, species_in_films
     // example2 (when table name is : species): refTableName: people, species_in_films
     // example3 (when table name is : planets:): refTableName: planets_in_films, species, people
-    const {
-      referencedBy: foreignRefBy,
-      foreignKeys: foreignFKeys,
-      columns: foreignColumns,
-    } = tables[refTableName];
+    const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
 
     // One-to-one: when we can find tableName in foreignRefBy, that means this is a direct one to one relation
     if (foreignRefBy && foreignRefBy[tableName]) {

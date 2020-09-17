@@ -22,7 +22,7 @@ const LinkContainer: React.FC = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        setData({ ...data, link: link, modal: false, schema: response.schema, d3Data: response.d3Data });
+        setData({ link: link, modal: false, schema: response.schema, d3Data: response.d3Data });
       });
   };
 
@@ -43,11 +43,7 @@ const LinkContainer: React.FC = () => {
     document.querySelector('html').classList.toggle('scroll-lock');
   };
 
-  return (
-    <React.Fragment>
-      {data.modal ? <Modal onSubmit={onSubmit} closeModal={closeModal} /> : null}
-    </React.Fragment>
-  );
+  return <React.Fragment>{data.modal ? <Modal onSubmit={onSubmit} closeModal={closeModal} /> : null}</React.Fragment>;
 };
 
 export default LinkContainer;

@@ -26,7 +26,7 @@ const TopNav: React.FC = ({ showModal }) => {
         <Nav>
           <Form inline>
             <Button variant="light" onClick={showModal}>
-              Enter DB Link
+              Enter Postgres URI
             </Button>
           </Form>
         </Nav>
