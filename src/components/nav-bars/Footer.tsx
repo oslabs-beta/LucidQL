@@ -10,6 +10,21 @@ import { useRecoilValue } from 'recoil';
 import { state } from '../../App';
 import { Navbar, Nav, Form, Button } from 'react-bootstrap';
 
+export const writeToDummyServer = (schema: string, link: string) => {
+  const connectToDBFile = connectToDB(link);
+  const toSchemaFile = schemaFile(schema);
+
+  const postOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ db: connectToDBFile, schema: toSchemaFile }),
+  };
+
+  fetch('/db/pg/writefile', postOptions)
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+};
+
 const Footer: React.FC = () => {
   const data = useRecoilValue(state);
 
@@ -24,22 +39,6 @@ const Footer: React.FC = () => {
     zip.generateAsync({ type: 'blob' }).then(function (content: any) {
       FileSaver.saveAs(content, 'canvasQL.zip');
     });
-    writeToDummyServer(data.schema, data.link);
-  };
-
-  const writeToDummyServer = (schema: string, link: string) => {
-    const connectToDBFile = connectToDB(link);
-    const toSchemaFile = schemaFile(schema);
-
-    const postOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ db: connectToDBFile, schema: toSchemaFile }),
-    };
-
-    fetch('/db/pg/writefile', postOptions)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
   };
 
   return (
@@ -49,6 +48,13 @@ const Footer: React.FC = () => {
         <Nav className="mr-auto"></Nav>
         <Nav>
           <Form inline>
+            <Button
+              className="btn btn-light"
+              style={{ marginRight: '5px' }}
+              onClick={() => writeToDummyServer(data.schema, data.link)}
+            >
+              Push Schema to Server
+            </Button>
             <Button className="btn btn-light" onClick={(e) => handleDownloadFiles(e)}>
               Download All Files
             </Button>

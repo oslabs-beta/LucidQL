@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 const TypeGenerator = require('./typeGenerator');
 const ResolverGenerator = require('./resolverGenerator');
 
