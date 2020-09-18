@@ -16,7 +16,7 @@ const SideBar: React.FC = () => {
         x
       </a>
       <a href="#">Dashboard</a>
-      <a href="http://localhost:3000/playground" target="_blank" onClick={() => writeToDummyServer(data.schema, data.link)}>
+      <a href="http://localhost:3030/playground" target="_blank" onClick={() => writeToDummyServer(data.schema, data.link)}>
         GraphQL Playground
       </a>
       <a href="#">Build API from Scratch</a>
