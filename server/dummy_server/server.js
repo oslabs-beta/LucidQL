@@ -1,8 +1,5 @@
 const express = require('express');
-const expressGraphQL = require('express-graphql');
-const expressPlayground = require('graphql-playground-middleware-express').default;
 
-const schema = require('./schema');
 
 const app = express();
 const PORT = process.env.PORT || '3000';
