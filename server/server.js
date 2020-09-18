@@ -6,7 +6,7 @@ const expressPlayground = require('graphql-playground-middleware-express').defau
 const schema = require('./dummy_server/schema');
 
 const app = express();
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 8080;
 
 /* Express logic/handler */
 app.use(express.json());
