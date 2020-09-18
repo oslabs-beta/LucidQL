@@ -8,6 +8,6 @@ services:
     volumes:
       - .:/usr/src/app
       - node_modules:/usr/src/app/node_modules
-    command: npm start
+    command: npm run dev:hot
 volumes:
   node_modules:

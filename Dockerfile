@@ -8,6 +8,6 @@ RUN npm install
 
 RUN npm run build
 
-EXPOSE 3030
+EXPOSE 8080
 
 ENTRYPOINT [ "npm", "start" ]
