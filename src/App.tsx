@@ -2,7 +2,7 @@ import React from 'react';
 import { RecoilRoot, atom, useRecoilState } from 'recoil';
 import LinkContainer from './components/link-popup/LinkContainer';
 import TopNav from './components/nav-bars/TopNav';
-import CodeBox from './components/Codebox';
+import CodeBox from './components/codebox';
 import SplitPane from 'react-split-pane';
 import ForceGraph from './forceGraph/ForceGraph';
 import Footer from './components/nav-bars/Footer';
