@@ -276,3 +276,8 @@ body {
   -webkit-transition: all 0.1s ease;
   transition: all 0.1s ease;
 }
+
+.orCenter{
+  margin:5px;
+  text-align: center;
+}

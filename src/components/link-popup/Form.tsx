@@ -1,7 +1,8 @@
 import React from 'react';
 
-export const Form = ({ onSubmit }) => {
+export const Form = ({ onSubmit, onSubmitSample }) => {
   return (
+    <div>
     <form onSubmit={onSubmit}>
       <h4>Welcome to RESTlessQL</h4>
       <p>Please enter a PostgresQL link below.</p>
@@ -15,6 +16,15 @@ export const Form = ({ onSubmit }) => {
         </button>
       </div>
     </form>
+     <form>
+    <div className = "orCenter">OR</div>
+     <div className="form-group">
+       <button className="form-control btn btn-light" type="submit" onClick = {(e)=> onSubmitSample(e)}>
+         Submit Sample Postgres URI
+       </button>
+     </div>
+   </form>
+   </div>
   );
 };
 export default Form;
