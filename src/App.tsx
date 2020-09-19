@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-// import VisGraph from './components/visGraph';
-import { RecoilRoot, atom, useRecoilState, useRecoilValue } from 'recoil';
+import React from 'react';
+import { RecoilRoot, atom, useRecoilState } from 'recoil';
 import LinkContainer from './components/link-popup/LinkContainer';
 import TopNav from './components/nav-bars/TopNav';
-import CodeBox from './components/Codebox';
-import './styles.css';
+import CodeBox from './components/codebox';
 import SplitPane from 'react-split-pane';
 import ForceGraph from './forceGraph/ForceGraph';
 import Footer from './components/nav-bars/Footer';
 import Sidebar from './components/Sidebar';
+import './styles.css';
 
 export const state = atom({
   key: 'state',
@@ -31,10 +30,6 @@ const App: React.FC = () => {
     if (node.primary) return `<button>Add Relations</button><button>Delete</button>`;
     else return `<button>Delete</button>`;
   }, []);
-
-  // useEffect(() => {
-  //   console.log('data is: ', data);
-  // }, [data]);
 
   const annotation = () => {
     return (

@@ -2,7 +2,6 @@
 /* eslint-disable guard-for-in */
 const fs = require('fs');
 const { Pool } = require('pg');
-const { table } = require('console');
 const SchemaGenerator = require('../generators/schemaGenerator');
 
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');

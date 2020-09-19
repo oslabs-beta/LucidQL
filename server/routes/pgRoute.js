@@ -14,8 +14,8 @@ const dummyServerController = {};
 dummyServerController.writeFiles = (req, res, next) => {
   const { db, schema } = req.body;
   // console.log(schema);
-  fs.writeFileSync(path.resolve(__dirname, '../../dummy_server/schema.js'), schema);
-  fs.writeFileSync(path.resolve(__dirname, '../../dummy_server/connectToDB.js'), db);
+  fs.writeFileSync(path.resolve(__dirname, '../dummy_server/schema.js'), schema);
+  fs.writeFileSync(path.resolve(__dirname, '../dummy_server/connectToDB.js'), db);
   next();
 };
 
