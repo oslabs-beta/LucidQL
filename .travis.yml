@@ -1,24 +1,23 @@
 SERVICES:
-    - docker
-  DIST: xenial
-  
-  SCRIPT:
-    - docker run -p 8081:8081 dockerizedgraphql/cql-prod --abort-on-container-exit
-    - python3 -VV
-    - pip -V
-  BEFORE_DEPLOY:
-    # install the aws cli
-    - python3 -m pip install --user awscli
-    # install the elastic beanstalk cli
-    - python3 -m pip install --user awsebcli
-    # Append exe location to our PATH
-    - export PATH=$PATH:$HOME/.local/bin
-  ENV:
-    GLOBAL:
-      - PATH=/opt/python/3.7.1/bin:$PATH
-  DEPLOY:
-    PROVIDER: script
-    SKIP_CLEANUP: true
-    ON: master
-    SCRIPT: sh $TRAVIS_BUILD_DIR/scripts/deploy.sh
-  
+  - docker
+DIST: xenial
+
+SCRIPT:
+  - docker run -p 8081:8081 dockerizedgraphql/cql-prod --abort-on-container-exit
+  - python3 -VV
+  - pip -V
+BEFORE_DEPLOY:
+  # install the aws cli
+  - python3 -m pip install --user awscli
+  # install the elastic beanstalk cli
+  - python3 -m pip install --user awsebcli
+  # Append exe location to our PATH
+  - export PATH=$PATH:$HOME/.local/bin
+ENV:
+GLOBAL:
+  - PATH=/opt/python/3.7.1/bin:$PATH
+DEPLOY:
+  PROVIDER: script
+  SKIP_CLEANUP: true
+  ON: master
+  SCRIPT: sh $TRAVIS_BUILD_DIR/scripts/deploy.sh
