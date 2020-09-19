@@ -277,7 +277,6 @@ body {
   transition: all 0.1s ease;
 }
 
-.orCenter{
-  margin:5px;
-  text-align: center;
+hr {
+  background-color: rgb(211, 211, 211);
 }

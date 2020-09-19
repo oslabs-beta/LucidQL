@@ -17,10 +17,10 @@ export const Form = ({ onSubmit, onSubmitSample }) => {
       </div>
     </form>
      <form>
-    <div className = "orCenter">OR</div>
+      <hr/>
      <div className="form-group">
        <button className="form-control btn btn-light" type="submit" onClick = {(e)=> onSubmitSample(e)}>
-         Submit Sample Postgres URI
+         Use Sample Postgres URI
        </button>
      </div>
    </form>
