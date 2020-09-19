@@ -30,25 +30,22 @@ ResolverGenerator.mutations = function mutations(tableName, tableData) {
 };
 
 ResolverGenerator.getRelationships = function getRelationships(tableName, tables) {
-  // console.log('tablename:', tableName, 'tables:', tables)
+ 
   const { primaryKey, referencedBy } = tables[tableName];
   if (!referencedBy) return '';
   let relationships = `\n  ${toPascalCase(singular(tableName))}: {\n`;
   for (const refTableName in referencedBy) {
     const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
     const refTableType = toPascalCase(singular(refTableName));
-    // console.log(refTableType)
     // One-to-one
     if (foreignRefBy && foreignRefBy[tableName]) relationships += this._oneToOne(tableName, primaryKey, refTableName, referencedBy[refTableName]);
     // One-to-many
     else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1) relationships += this._oneToMany(tableName, primaryKey, refTableName, referencedBy[refTableName]);
     // Many-to-many
     for (const foreignFKey in foreignFKeys) {
-      // console.log(tableName, foreignFKeys);
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) {
         // Do not include original table in output
         const manyToManyTable = foreignFKeys[foreignFKey].referenceTable;
-        // console.log(foreignFKeys[foreignFKey]) // this console
         const refKey = tables[tableName].referencedBy[refTableName];
         const manyRefKey = tables[manyToManyTable].referencedBy[refTableName];
         const { primaryKey: manyPrimaryKey } = tables[manyToManyTable];
@@ -58,20 +55,14 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
     }
 
     for (const FKTableName in tables[tableName].foreignKeys) {
-      // console.log('table[tableName]:', tables[tableName])
-      // console.log(tableName, ',', tables[tableName].foreignKeys)
       const object = tables[tableName].foreignKeys[FKTableName];
       const refTableName = object.referenceTable;
       const refKey = object.referenceKey;
-      // console.log(refTableName) // this console
-      // console.log('object', object)
       const newQuery = this._FKTable(tableName, primaryKey, tableName, refKey, FKTableName, refTableName, primaryKey)
       if (!relationships.includes(newQuery)) relationships += newQuery 
-      // manyToMany(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey)
     }
   }
   relationships += '  },\n';
-  // console.log(relationships);
   return relationships;
 };
 

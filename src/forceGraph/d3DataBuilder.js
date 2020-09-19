@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 export default function generateNodeAndLink(data) {
   const newData = { tableNodes: [], columnNodes: [], referencedBy: [], pointsTo: [], linksToColumns: [] };
 
@@ -44,6 +46,5 @@ export default function generateNodeAndLink(data) {
       newData.linksToColumns.push(childLink);
     });
   }
-  // console.log(newData);
   return newData;
 }
