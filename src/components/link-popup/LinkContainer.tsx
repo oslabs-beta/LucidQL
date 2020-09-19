@@ -60,7 +60,7 @@ const LinkContainer: React.FC = () => {
     document.querySelector('html').classList.toggle('scroll-lock');
   };
 
-  return <React.Fragment>{data.modal ? <Modal onSubmit={onSubmit} onSubmitSample = {onSubmitSample}closeModal={closeModal} /> : null}</React.Fragment>;
+  return <React.Fragment>{data.modal ? <Modal onSubmit={onSubmit} onSubmitSample = {onSubmitSample} closeModal={closeModal} /> : null}</React.Fragment>;
 };
 
 export default LinkContainer;
