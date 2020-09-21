@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RecoilRoot, atom, useRecoilState, useRecoilValue } from 'recoil';
 import LinkContainer from './components/link-popup/LinkContainer';
-import TopNav from './components/navbars/TopNav';
+import TopNav from './components/nav-bars/TopNav';
 import CodeBox from './components/codebox';
-import './styles.css';
 import SplitPane from 'react-split-pane';
 import TableController from './forceGraph/TableController';
 import ForceGraph from './forceGraph/ForceGraph';
-import Footer from './components/navbars/Footer';
-import { handleDownloadFiles } from './UI';
-import Sidebar from './components/sidebar2';
+import Footer from './components/nav-bars/Footer';
+import Sidebar from './components/Sidebar';
+import './styles.css';
 
 export const state = atom({
   key: 'state',
@@ -59,7 +58,7 @@ const App: React.FC = () => {
             <CodeBox />
           </div>
         </SplitPane>
-        <Footer handleDownloadFiles={handleDownloadFiles} />
+        <Footer />
       </div>
     </div>
   );

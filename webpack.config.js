@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   // webpack will take the files from ./src/index
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   // and output it into /dist as bundle.js
   output: {
     path: path.join(__dirname, '/build'),
@@ -37,7 +37,7 @@ module.exports = {
   devServer: {
     publicPath: '/build',
     proxy: {
-      '/': 'http://localhost:3030',
+      '/': 'http://localhost:8081',
     },
     hot: true,
   },

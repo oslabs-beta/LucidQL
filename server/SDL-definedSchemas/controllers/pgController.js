@@ -1,6 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 const fs = require('fs');
 const { Pool } = require('pg');
-const { table } = require('console');
 const SchemaGenerator = require('../generators/schemaGenerator');
 
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
@@ -9,7 +10,7 @@ const pgController = {};
 
 // Middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
-  let db = new Pool({ connectionString: req.body.uri.trim() });
+  const db = new Pool({ connectionString: req.body.uri.trim() });
 
   db.query(pgQuery)
     .then((data) => {
@@ -46,8 +47,7 @@ pgController.compileData = (req, res, next) => {
       // if this is not a joing table
       if (
         !currentTable.foreignKeys ||
-        Object.keys(currentTable.columns).length !==
-          Object.keys(currentTable.foreignKeys).length + 1
+        Object.keys(currentTable.columns).length !== Object.keys(currentTable.foreignKeys).length + 1
       ) {
         const pointsTo = [];
         for (const objName in currentTable.foreignKeys) {
@@ -64,8 +64,7 @@ pgController.compileData = (req, res, next) => {
           } else {
             // else it's a join table
             for (const foreignKey in OriginalTables[refTableName].foreignKeys) {
-              const joinedTable =
-                OriginalTables[refTableName].foreignKeys[foreignKey].referenceTable;
+              const joinedTable = OriginalTables[refTableName].foreignKeys[foreignKey].referenceTable;
               if (joinedTable !== table) {
                 referecedBy.push(joinedTable);
               }
