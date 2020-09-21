@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
-const pgRouter = require('./routes/pgRoute');
 const expressGraphQL = require('express-graphql');
 const expressPlayground = require('graphql-playground-middleware-express').default;
+const pgRouter = require('./routes/pgRoute');
+const mySQLRouter = require('./routes/mySQLRoute');
 const schema = require('./dummy_server/schema');
 
 const app = express();
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../build')));
 
 app.use('/db/pg', pgRouter);
-// app.use('/db/mySQL', mySQLRouter);
+app.use('/db/mySQL', mySQLRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../src/index.html'));

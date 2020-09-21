@@ -33,7 +33,7 @@
     "graphql-playground-react": "^1.7.26",
     "graphql-tools": "^6.2.2",
     "jszip": "^3.5.0",
-    "mysql2": "^2.1.0",
+    "mysql2": "^2.2.3",
     "pg": "^8.3.3",
     "pg-hstore": "^2.3.3",
     "pluralize": "^8.0.0",

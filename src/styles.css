@@ -35,6 +35,11 @@ body {
   color: white;
 }
 
+.secondary-btn {
+  background: #f6f6f7;
+  color: black;
+}
+
 .logo {
   width: 1.5%;
 }

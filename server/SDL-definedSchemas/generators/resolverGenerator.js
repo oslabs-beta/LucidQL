@@ -68,13 +68,13 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
 
 ResolverGenerator._oneToOne = function oneToOne(tableName, primaryKey, refTableName, refKey) {
   return (
-    `    ${toCamelCase(refTableName)}: (${toCamelCase(tableName)}) => {\n` +
+    `    ${toCamelCase(refTableName)}: async (${toCamelCase(tableName)}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n` +
     `        const values = [${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows[0]);\n' +
+    '        return await db.query(query, values).then((res) => res.rows[0]);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -82,13 +82,13 @@ ResolverGenerator._oneToOne = function oneToOne(tableName, primaryKey, refTableN
 
 ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTableName, refKey) {
   return (
-    `    ${toCamelCase(refTableName)}: (${toCamelCase(tableName)}) => {\n` +
+    `    ${toCamelCase(refTableName)}: async (${toCamelCase(tableName)}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n` +
     `        const values = [${tableName}.${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return await db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -97,13 +97,13 @@ ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTabl
 ResolverGenerator._manyToMany = function manyToMany(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
   const camTableName = toCamelCase(tableName);
   return (
-    `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
+    `    ${toCamelCase(manyTableName)}: async (${camTableName}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
     `        const values = [${camTableName}.${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return await db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -112,13 +112,13 @@ ResolverGenerator._manyToMany = function manyToMany(tableName, primaryKey, joinT
 ResolverGenerator._FKTable = function FKTable(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
   const camTableName = toCamelCase(tableName);
   return (
-    `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
+    `    ${toCamelCase(manyTableName)}: async (${camTableName}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT ${manyTableName}.* FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
     `        const values = [${camTableName}.${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return await db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -168,12 +168,12 @@ ResolverGenerator._createMutation = function createColumn(tableName, primaryKey,
     `    ${toCamelCase(`create_${singular(tableName)}`)}: (parent, args) => {\n` +
     `      const query = 'INSERT INTO ${tableName}(${Object.values(this._values).join(', ')}) VALUES(${Object.keys(this._values)
       .map((x) => `$${x}`)
-      .join(', ')})';\n` +
+      .join(', ')}) RETURNING *';\n` +
     `      const values = [${Object.values(this._values)
       .map((x) => `args.${x}`)
       .join(', ')}];\n` +
     '      try {\n' +
-    '        return db.query(query, values);\n' +
+    '        return db.query(query, values).then(res => res.rows[0]);\n' +
     '      } catch (err) {\n' +
     '        throw new Error(err);\n' +
     '      }\n' +
@@ -187,11 +187,11 @@ ResolverGenerator._updateMutation = function updateColumn(tableName, primaryKey,
   return (
     `    ${toCamelCase(`update_${singular(tableName)}`)}: (parent, args) => {\n` +
     '      try {\n' +
-    `        const query = 'UPDATE ${tableName} SET ${displaySet.slice(0, displaySet.length - 2)} WHERE ${primaryKey} = $${Object.entries(this._values).length + 1}';\n` +
+    `        const query = 'UPDATE ${tableName} SET ${displaySet.slice(0, displaySet.length - 2)} WHERE ${primaryKey} = $${Object.entries(this._values).length + 1} RETURNING *';\n` +
     `        const values = [${Object.values(this._values)
       .map((x) => `args.${x}`)
       .join(', ')}, args.${primaryKey}];\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return db.query(query, values).then((res) => res.rows[0]);\n' +
     '      } catch (err) {\n' +
     '        throw new Error(err);\n' +
     '      }\n' +
@@ -203,9 +203,9 @@ ResolverGenerator._deleteMutations = function deleteColumn(tableName, primaryKey
   return (
     `    ${toCamelCase(`delete_${singular(tableName)}`)}: (parent, args) => {\n` +
     '      try {\n' +
-    `        const query = 'DELETE FROM ${tableName} WHERE ${primaryKey} = $1';\n` +
+    `        const query = 'DELETE FROM ${tableName} WHERE ${primaryKey} = $1 RETURNING *';\n` +
     `        const values = [args.${primaryKey}];\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return db.query(query, values).then((res) => res.rows[0]);\n' +
     '      } catch (err) {\n' +
     '        throw new Error(err);\n' +
     '      }\n' +
