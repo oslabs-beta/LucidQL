@@ -18,7 +18,6 @@ const typeDefs = `
   }
 
   type Mutation {
-
     createPerson(
       gender: String,
       height: Int,
@@ -624,7 +623,7 @@ const resolvers = {
         const values = [planets._id]
         return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+        //throw new Error(err)
       }
     },
     people: async (planets) => {
@@ -633,7 +632,7 @@ const resolvers = {
         const values = [planets._id]
         return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+        //throw new Error(err)
       }
     },
     species: async (planets) => {
@@ -654,7 +653,7 @@ const resolvers = {
         const values = [species._id]
         return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+        //throw new Error(err)
       }
     },
     planets: async (species) => {
@@ -711,7 +710,7 @@ const resolvers = {
         const values = [vessels._id]
         return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+        //throw new Error(err)
       }
     },
   },

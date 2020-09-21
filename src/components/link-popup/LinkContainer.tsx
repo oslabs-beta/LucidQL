@@ -75,7 +75,7 @@ const LinkContainer: React.FC = () => {
           link: 'postgres://ordddiou:g5OjOyAIFxf-tsLk1uwu4ZOfbJfiCFbh@ruby.db.elephantsql.com:5432/ordddiou',
           modal: false,
           schema: response.schema,
-          d3Data: response.d3Data,
+          tables: response.tables,
         });
       });
   };
