@@ -2,8 +2,11 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 // eslint-disable-next-line prettier/prettier
-const { singular } = require('pluralize');
-const { toCamelCase, toPascalCase } = require('../helpers/helperFunctions');
+import { singular } from 'pluralize';
+import {
+  toCamelCase,
+  toPascalCase,
+} from './helperFunctions';
 
 const ResolverGenerator = {
   _values: {},
@@ -229,4 +232,4 @@ ResolverGenerator._deleteMutations = function deleteColumn(tableName, primaryKey
   );
 };
 
-module.exports = ResolverGenerator;
+export default ResolverGenerator;

@@ -4,7 +4,7 @@ const pgController = require('../SDL-definedSchemas/controllers/pgController');
 
 router.post('/sdl', pgController.getPGTables, pgController.assembleSDLSchema, pgController.compileData, (req, res) => {
   // console.log(res.locals.SDLSchema);
-  res.status(200).json({ schema: res.locals.SDLSchema, d3Data: res.locals.d3Data });
+  res.status(200).json({ schema: res.locals.SDLSchema, tables: res.locals.tables });
 });
 
 // No need for now
