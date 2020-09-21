@@ -12,6 +12,10 @@ const ResolverGenerator = {
   _values: {},
 };
 
+ResolverGenerator.reset = function () {
+  this._values = {};
+};
+
 ResolverGenerator.queries = function queries(tableName, { primaryKey }) {
   return `\n${this._columnQuery(tableName, primaryKey)}` + `\n${this._allColumnQuery(tableName)}`;
 };
@@ -73,6 +77,19 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
         );
       }
     }
+
+    for (const FKTableName in tables[tableName].foreignKeys) {
+      // console.log('table[tableName]:', tables[tableName])
+      // console.log(tableName, ',', tables[tableName].foreignKeys)
+      const object = tables[tableName].foreignKeys[FKTableName];
+      const refTableName = object.referenceTable;
+      const refKey = object.referenceKey;
+      // console.log(refTableName) // this console
+      // console.log('object', object)
+      const newQuery = this._FKTable(tableName, primaryKey, tableName, refKey, FKTableName, refTableName, primaryKey)
+      if (!relationships.includes(newQuery)) relationships += newQuery 
+      // manyToMany(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey)
+    }
   }
   relationships += '  },\n';
   return relationships;
@@ -120,6 +137,21 @@ ResolverGenerator._manyToMany = function manyToMany(
     `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
+    `        const values = [${camTableName}.${primaryKey}]\n` +
+    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '      } catch (err) {\n' +
+    '        throw new Error(err)\n' +
+    '      }\n' +
+    '    },\n'
+  );
+};
+
+ResolverGenerator._FKTable = function FKTable(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
+  const camTableName = toCamelCase(tableName);
+  return (
+    `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
+    '      try {\n' +
+    `        const query = \'SELECT ${manyTableName}.* FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
     `        const values = [${camTableName}.${primaryKey}]\n` +
     '        return db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
@@ -200,11 +232,11 @@ ResolverGenerator._updateMutation = function updateColumn(
   columns
 ) {
   let displaySet = '';
-  for (const key in this._values) displaySet += `${this._values[key]}=$${key} `;
+  for (const key in this._values) displaySet += `${this._values[key]}=$${key}, `;
   return (
     `    ${toCamelCase(`update_${singular(tableName)}`)}: (parent, args) => {\n` +
     '      try {\n' +
-    `        const query = 'UPDATE ${tableName} SET ${displaySet} WHERE ${primaryKey} = $${
+    `        const query = 'UPDATE ${tableName} SET ${displaySet.slice(0, displaySet.length - 2)} WHERE ${primaryKey} = $${
       Object.entries(this._values).length + 1
     }';\n` +
     `        const values = [${Object.values(this._values)
