@@ -2,8 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  // webpack will take the files from ./src/index
-  entry: './src/index.jsx',
+  // webpack will take the files from ./client/index
+  entry: './client/index.tsx',
   // and output it into /dist as bundle.js
   output: {
     path: path.join(__dirname, '/build'),
@@ -43,7 +43,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './client/index.html',
       filename: 'index.html',
       inject: 'body',
     }),

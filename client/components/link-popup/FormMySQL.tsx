@@ -12,7 +12,7 @@ export const FormMySQL = ({ onSubmitMySQL, mySQLButton }) => {
           <label htmlFor="user">Username: </label>
           <input className="form-control" id="user" />
           <label htmlFor="password">Password: </label>
-          <input className="form-control" id="password" />
+          <input className="form-control" id="password" type="password" />
           <label htmlFor="database">Database: </label>
           <input className="form-control" id="database" />
         </div>

@@ -19,7 +19,7 @@ const SideBar: React.FC = () => {
       <a href="http://localhost:8081/playground" target="_blank" onClick={() => writeToDummyServer(data.schema, data.link)}>
         GraphQL Playground
       </a>
-      <a href="#">Build API from Scratch</a>
+      <a href="#">View Source Code</a>
     </div>
   );
 };

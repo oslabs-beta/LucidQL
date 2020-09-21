@@ -19,7 +19,7 @@ app.use('/db/pg', pgRouter);
 app.use('/db/mySQL', mySQLRouter);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../src/index.html'));
+  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 app.use(

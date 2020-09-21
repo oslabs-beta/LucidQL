@@ -45,7 +45,8 @@ body {
 }
 
 .logo-text {
-  font-family: 'Patua One', cursive;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
   margin-left: 2px;
   font-size: 26px;
   color: #967bb6;
@@ -53,7 +54,8 @@ body {
 }
 
 .logo-text2 {
-  font-family: 'Patua One', cursive;
+  font-family: 'Montserrat', sans-serif;
+  /* font-weight: 600; */
   margin-left: 2px;
   font-size: 26px;
   color: #939393;

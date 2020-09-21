@@ -14,12 +14,8 @@ const TopNav: React.FC = ({ showModal }) => {
         ☰
       </button>
       <img className="logo" src={logo} />
-      <Navbar.Brand className="logo-text" href="#home">
-        RESTless
-      </Navbar.Brand>
-      <Navbar.Brand className="logo-text2" href="#home">
-        QL
-      </Navbar.Brand>
+      <Navbar.Brand className="logo-text">Lucid</Navbar.Brand>
+      <Navbar.Brand className="logo-text2">QL</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto"></Nav>
