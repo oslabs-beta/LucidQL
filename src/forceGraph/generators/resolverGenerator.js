@@ -79,16 +79,12 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
     }
 
     for (const FKTableName in tables[tableName].foreignKeys) {
-      // console.log('table[tableName]:', tables[tableName])
-      // console.log(tableName, ',', tables[tableName].foreignKeys)
       const object = tables[tableName].foreignKeys[FKTableName];
       const refTableName = object.referenceTable;
       const refKey = object.referenceKey;
-      // console.log(refTableName) // this console
-      // console.log('object', object)
+ 
       const newQuery = this._FKTable(tableName, primaryKey, tableName, refKey, FKTableName, refTableName, primaryKey)
       if (!relationships.includes(newQuery)) relationships += newQuery 
-      // manyToMany(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey)
     }
   }
   relationships += '  },\n';
@@ -97,13 +93,13 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
 
 ResolverGenerator._oneToOne = function oneToOne(tableName, primaryKey, refTableName, refKey) {
   return (
-    `    ${toCamelCase(refTableName)}: (${toCamelCase(tableName)}) => {\n` +
+    `    ${toCamelCase(refTableName)}: async (${toCamelCase(tableName)}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n` +
     `        const values = [${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows[0]);\n' +
+    '        return await db.query(query, values).then((res) => res.rows[0]);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -111,13 +107,13 @@ ResolverGenerator._oneToOne = function oneToOne(tableName, primaryKey, refTableN
 
 ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTableName, refKey) {
   return (
-    `    ${toCamelCase(refTableName)}: (${toCamelCase(tableName)}) => {\n` +
+    `    ${toCamelCase(refTableName)}: async (${toCamelCase(tableName)}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n` +
     `        const values = [${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return await db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -134,13 +130,13 @@ ResolverGenerator._manyToMany = function manyToMany(
 ) {
   const camTableName = toCamelCase(tableName);
   return (
-    `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
+    `    ${toCamelCase(manyTableName)}: async (${camTableName}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
     `        const values = [${camTableName}.${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return await db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -149,13 +145,13 @@ ResolverGenerator._manyToMany = function manyToMany(
 ResolverGenerator._FKTable = function FKTable(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
   const camTableName = toCamelCase(tableName);
   return (
-    `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
+    `    ${toCamelCase(manyTableName)}: async (${camTableName}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT ${manyTableName}.* FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
     `        const values = [${camTableName}.${primaryKey}]\n` +
-    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '        return await db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '        //throw new Error(err)\n' +
     '      }\n' +
     '    },\n'
   );
@@ -163,7 +159,7 @@ ResolverGenerator._FKTable = function FKTable(tableName, primaryKey, joinTableNa
 
 ResolverGenerator._createValues = function values(primaryKey, foreignKeys, columns) {
   let index = 1;
-  for (let columnName in columns) {
+  for (const columnName in columns) {
     if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
       this._values[index++] = columnName;
     }
