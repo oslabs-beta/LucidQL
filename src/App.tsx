@@ -1,9 +1,10 @@
-import React from 'react';
-import { RecoilRoot, atom, useRecoilState } from 'recoil';
+import React, { useState, useEffect, useRef } from 'react';
+import { RecoilRoot, atom, useRecoilState, useRecoilValue } from 'recoil';
 import LinkContainer from './components/link-popup/LinkContainer';
 import TopNav from './components/nav-bars/TopNav';
 import CodeBox from './components/codebox';
 import SplitPane from 'react-split-pane';
+import TableController from './forceGraph/TableController';
 import ForceGraph from './forceGraph/ForceGraph';
 import Footer from './components/nav-bars/Footer';
 import Sidebar from './components/Sidebar';
@@ -15,7 +16,8 @@ export const state = atom({
     link: '',
     modal: true,
     schema: '',
-    d3Data: {},
+    tables: {},
+    tableModified: false,
   },
 });
 
@@ -27,18 +29,18 @@ const App: React.FC = () => {
   };
 
   const nodeHoverTooltip = React.useCallback((node) => {
-    if (node.primary) return `<button>Add Relations</button><button>Delete</button>`;
-    else return `<button>Delete</button>`;
+    if (node.primary) return `<p>${node.name}</p>\n<button>Add Column</button><button>Add Relations</button><button>Delete</button>`
+    else return `<p>${node.name}</p>\n<button>Delete</button>`
   }, []);
 
   const annotation = () => {
     return (
-      <div style={{ position: 'fixed', top: '10vh', left: '5vw' }}>
-        <h5 style={{ color: 'orange', fontWeight: 'bolder' }}> ⟶ Points To</h5>
-        <h5 style={{ color: 'blue', fontWeight: 'bolder' }}> ⟶ Referenced By</h5>
+      <div style={{ position: 'fixed', top: '10vh', left: '5vw'}}>
+        <h5 style={{color: "orange", fontWeight: "bolder"}}> ⟶ Foreign Key To</h5>
+        <h5 style={{color: "#C4FB6D", fontWeight: "bolder"}}> ⟶ Referenced By</h5>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div id="main">
@@ -46,10 +48,11 @@ const App: React.FC = () => {
         <TopNav showModal={showModal} />
         <Sidebar />
         <LinkContainer />
-        <SplitPane split="vertical" minSize={100}>
-          <div className="graph-div">
-            {!data.modal ? annotation() : null}
-            {!data.modal ? <ForceGraph data={data.d3Data} nodeHoverTooltip={nodeHoverTooltip} /> : null}
+        <SplitPane split="vertical" minSize={50} resizerClassName="Resizer" resizerStyle={{ width: '20px' }}>
+        <div className="graph-div">
+            {!data.modal ? annotation() : null }
+            {!data.modal ? <TableController /> : null }
+            {!data.modal ? <ForceGraph nodeHoverTooltip={nodeHoverTooltip} /> : null} 
           </div>
           <div className="code-box">
             <CodeBox />

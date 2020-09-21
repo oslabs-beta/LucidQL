@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  height: 85vh;
+  height: 100%;
   position: relative;
   /* background-color: #404040; */
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6); */
@@ -9,19 +9,19 @@
 
 .container svg {
   display: block;
-  width: 100rem;
-  height: 100rem;
+  width: 100vw;
+  height: 100vw;
 }
 
 .primary {
   font-size: 24px;
-  fill: black;
+  fill: white;
   /* fill: rgb(22, 130, 218); */
 }
 
 .column {
   font-size: 12px;
-  fill: rgb(246, 0, 0);
+  fill: white
 }
 
 .node text {

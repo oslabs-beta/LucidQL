@@ -1,11 +1,8 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable guard-for-in */
-const TypeGenerator = require('./typeGenerator');
-const ResolverGenerator = require('./resolverGenerator');
+import TypeGenerator from './typeGenerator';
+import ResolverGenerator from './resolverGenerator';
 
-const SchemaGenerator = {};
 // assembles all programmatic schema and resolvers together in one string
-SchemaGenerator.assembleSchema = function assembleSchema(tables) {
+export const assembleSchema = (tables) => {
   let queryType = '';
   let mutationType = '';
   let customTypes = '';
@@ -40,5 +37,3 @@ SchemaGenerator.assembleSchema = function assembleSchema(tables) {
     'module.exports = schema;'
   );
 };
-
-module.exports = SchemaGenerator;

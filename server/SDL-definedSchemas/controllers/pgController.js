@@ -25,6 +25,7 @@ pgController.getPGTables = (req, res, next) => {
 // Middleware function for assembling SDL schema
 pgController.assembleSDLSchema = (req, res, next) => {
   try {
+    console.log(res.locals.tables)
     res.locals.SDLSchema = SchemaGenerator.assembleSchema(res.locals.tables);
     return next();
   } catch (err) {

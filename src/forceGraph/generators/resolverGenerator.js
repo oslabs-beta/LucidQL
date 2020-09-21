@@ -2,9 +2,11 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 // eslint-disable-next-line prettier/prettier
-// prettier-ignore
-const { singular } = require('pluralize');
-const { toCamelCase, toPascalCase } = require('../helpers/helperFunctions');
+import { singular } from 'pluralize';
+import {
+  toCamelCase,
+  toPascalCase,
+} from './helperFunctions';
 
 const ResolverGenerator = {
   _values: {},
@@ -15,7 +17,6 @@ ResolverGenerator.reset = function () {
 };
 
 ResolverGenerator.queries = function queries(tableName, { primaryKey }) {
-  this.reset();
   return `\n${this._columnQuery(tableName, primaryKey)}` + `\n${this._allColumnQuery(tableName)}`;
 };
 
@@ -30,30 +31,50 @@ ResolverGenerator.mutations = function mutations(tableName, tableData) {
 };
 
 ResolverGenerator.getRelationships = function getRelationships(tableName, tables) {
-  // console.log('tablename:', tableName, 'tables:', tables)
   const { primaryKey, referencedBy } = tables[tableName];
   if (!referencedBy) return '';
   let relationships = `\n  ${toPascalCase(singular(tableName))}: {\n`;
   for (const refTableName in referencedBy) {
-    const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
+    const {
+      referencedBy: foreignRefBy,
+      foreignKeys: foreignFKeys,
+      columns: foreignColumns,
+    } = tables[refTableName];
     const refTableType = toPascalCase(singular(refTableName));
-    // console.log(refTableType)
     // One-to-one
-    if (foreignRefBy && foreignRefBy[tableName]) relationships += this._oneToOne(tableName, primaryKey, refTableName, referencedBy[refTableName]);
+    if (foreignRefBy && foreignRefBy[tableName])
+      relationships += this._oneToOne(
+        tableName,
+        primaryKey,
+        refTableName,
+        referencedBy[refTableName]
+      );
     // One-to-many
-    else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1) relationships += this._oneToMany(tableName, primaryKey, refTableName, referencedBy[refTableName]);
+    else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1)
+      relationships += this._oneToMany(
+        tableName,
+        primaryKey,
+        refTableName,
+        referencedBy[refTableName]
+      );
     // Many-to-many
     for (const foreignFKey in foreignFKeys) {
-      // console.log(tableName, foreignFKeys);
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) {
         // Do not include original table in output
         const manyToManyTable = foreignFKeys[foreignFKey].referenceTable;
-        // console.log(foreignFKeys[foreignFKey]) // this console
         const refKey = tables[tableName].referencedBy[refTableName];
         const manyRefKey = tables[manyToManyTable].referencedBy[refTableName];
         const { primaryKey: manyPrimaryKey } = tables[manyToManyTable];
 
-        relationships += this._manyToMany(tableName, primaryKey, refTableName, refKey, manyRefKey, manyToManyTable, manyPrimaryKey);
+        relationships += this._manyToMany(
+          tableName,
+          primaryKey,
+          refTableName,
+          refKey,
+          manyRefKey,
+          manyToManyTable,
+          manyPrimaryKey
+        );
       }
     }
 
@@ -71,7 +92,6 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
     }
   }
   relationships += '  },\n';
-  // console.log(relationships);
   return relationships;
 };
 
@@ -94,7 +114,7 @@ ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTabl
     `    ${toCamelCase(refTableName)}: (${toCamelCase(tableName)}) => {\n` +
     '      try {\n' +
     `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n` +
-    `        const values = [${tableName}.${primaryKey}]\n` +
+    `        const values = [${primaryKey}]\n` +
     '        return db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
     '        throw new Error(err)\n' +
@@ -103,7 +123,15 @@ ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTabl
   );
 };
 
-ResolverGenerator._manyToMany = function manyToMany(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
+ResolverGenerator._manyToMany = function manyToMany(
+  tableName,
+  primaryKey,
+  joinTableName,
+  refKey,
+  manyRefKey,
+  manyTableName,
+  manyPrimaryKey
+) {
   const camTableName = toCamelCase(tableName);
   return (
     `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
@@ -172,10 +200,17 @@ ResolverGenerator._allColumnQuery = function allColumn(tableName) {
   );
 };
 
-ResolverGenerator._createMutation = function createColumn(tableName, primaryKey, foreignKeys, columns) {
+ResolverGenerator._createMutation = function createColumn(
+  tableName,
+  primaryKey,
+  foreignKeys,
+  columns
+) {
   return (
     `    ${toCamelCase(`create_${singular(tableName)}`)}: (parent, args) => {\n` +
-    `      const query = 'INSERT INTO ${tableName}(${Object.values(this._values).join(', ')}) VALUES(${Object.keys(this._values)
+    `      const query = 'INSERT INTO ${tableName}(${Object.values(this._values).join(
+      ', '
+    )}) VALUES(${Object.keys(this._values)
       .map((x) => `$${x}`)
       .join(', ')})';\n` +
     `      const values = [${Object.values(this._values)
@@ -190,13 +225,20 @@ ResolverGenerator._createMutation = function createColumn(tableName, primaryKey,
   );
 };
 
-ResolverGenerator._updateMutation = function updateColumn(tableName, primaryKey, foreignKeys, columns) {
+ResolverGenerator._updateMutation = function updateColumn(
+  tableName,
+  primaryKey,
+  foreignKeys,
+  columns
+) {
   let displaySet = '';
   for (const key in this._values) displaySet += `${this._values[key]}=$${key}, `;
   return (
     `    ${toCamelCase(`update_${singular(tableName)}`)}: (parent, args) => {\n` +
     '      try {\n' +
-    `        const query = 'UPDATE ${tableName} SET ${displaySet.slice(0, displaySet.length - 2)} WHERE ${primaryKey} = $${Object.entries(this._values).length + 1}';\n` +
+    `        const query = 'UPDATE ${tableName} SET ${displaySet.slice(0, displaySet.length - 2)} WHERE ${primaryKey} = $${
+      Object.entries(this._values).length + 1
+    }';\n` +
     `        const values = [${Object.values(this._values)
       .map((x) => `args.${x}`)
       .join(', ')}, args.${primaryKey}];\n` +
@@ -222,4 +264,4 @@ ResolverGenerator._deleteMutations = function deleteColumn(tableName, primaryKey
   );
 };
 
-module.exports = ResolverGenerator;
+export default ResolverGenerator;
