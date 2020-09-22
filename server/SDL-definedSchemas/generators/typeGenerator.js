@@ -119,9 +119,11 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   for (const FKTableName in tables[tableName].foreignKeys) {
     const object = tables[tableName].foreignKeys[FKTableName];
     const refTableName = object.referenceTable;
-    const refTableType = toPascalCase(singular(refTableName));
-    // console.log(tableName, refTableType, refTableName, refTableType)
-    relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
+    if (refTableName) {
+      const refTableType = toPascalCase(singular(refTableName));
+      // console.log(tableName, refTableType, refTableName, refTableType)
+      relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
+    }
   }
 
   return relationships;
