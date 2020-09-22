@@ -26,7 +26,7 @@ SchemaGenerator.assembleSchema = function assembleSchema(tables) {
   }
   return (
     `${'const typeDefs = `\n' + '  type Query {\n'}${queryType}  }\n\n` +
-    `  type Mutation {\n${mutationType}  }\n\n` +
+    `  type Mutation {${mutationType}  }\n\n` +
     `${customTypes}\`;\n\n` +
     'const resolvers = {\n' +
     '  Query: {' +

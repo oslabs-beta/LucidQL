@@ -48,7 +48,7 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) {
         // Do not include original table in output
         const manyToManyTable = foreignFKeys[foreignFKey].referenceTable;
-        console.log(foreignFKeys[foreignFKey]) // this console
+        // console.log(foreignFKeys[foreignFKey]) // this console
         const refKey = tables[tableName].referencedBy[refTableName];
         const manyRefKey = tables[manyToManyTable].referencedBy[refTableName];
         const { primaryKey: manyPrimaryKey } = tables[manyToManyTable];
@@ -63,7 +63,7 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
       const object = tables[tableName].foreignKeys[FKTableName];
       const refTableName = object.referenceTable;
       const refKey = object.referenceKey;
-      console.log(refTableName) // this console
+      // console.log(refTableName) // this console
       // console.log('object', object)
       const newQuery = this._FKTable(tableName, primaryKey, tableName, refKey, FKTableName, refTableName, primaryKey)
       if (!relationships.includes(newQuery)) relationships += newQuery 
@@ -135,7 +135,7 @@ ResolverGenerator._FKTable = function FKTable(tableName, primaryKey, joinTableNa
 
 ResolverGenerator._createValues = function values(primaryKey, foreignKeys, columns) {
   let index = 1;
-  for (columnName in columns) {
+  for (let columnName in columns) {
     if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
       this._values[index++] = columnName;
     }

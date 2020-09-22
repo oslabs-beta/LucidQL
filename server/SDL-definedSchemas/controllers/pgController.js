@@ -2,7 +2,6 @@
 /* eslint-disable guard-for-in */
 const fs = require('fs');
 const { Pool } = require('pg');
-const { table } = require('console');
 const SchemaGenerator = require('../generators/schemaGenerator');
 
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
@@ -26,6 +25,7 @@ pgController.getPGTables = (req, res, next) => {
 // Middleware function for assembling SDL schema
 pgController.assembleSDLSchema = (req, res, next) => {
   try {
+    console.log(res.locals.tables)
     res.locals.SDLSchema = SchemaGenerator.assembleSchema(res.locals.tables);
     return next();
   } catch (err) {
