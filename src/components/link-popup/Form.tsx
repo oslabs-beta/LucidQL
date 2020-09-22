@@ -4,7 +4,11 @@ export const Form = ({ onSubmit, onSubmitSample }) => {
   return (
     <div>
     <form onSubmit={onSubmit}>
-      <h4>Welcome to RESTlessQL</h4>
+      <h3>Welcome to RESTlessQL</h3>
+      <br/>
+      <h6>Quickly Build Your GraphQL API from Existing Postgres Database.</h6>
+      <h6>Drag to Trash Can will exclude Table/Column You Do Not Need from GraphQL schema.</h6>
+      <br/>
       <p>Please enter a PostgresQL link below.</p>
       <div className="form-group">
         <label htmlFor="link">Link: </label>

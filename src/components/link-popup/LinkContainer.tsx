@@ -46,8 +46,8 @@ const LinkContainer: React.FC = () => {
     })
     .then((response) => response.json())
     .then((response) => {
-      console.log(response)
-      setData({link : 'postgres://ordddiou:g5OjOyAIFxf-tsLk1uwu4ZOfbJfiCFbh@ruby.db.elephantsql.com:5432/ordddiou', modal: false, schema: response.schema, d3Data: response.d3Data})
+      // console.log(response)
+      setData({...data, link : 'postgres://ordddiou:g5OjOyAIFxf-tsLk1uwu4ZOfbJfiCFbh@ruby.db.elephantsql.com:5432/ordddiou', modal: false, schema: response.schema, tables: response.tables })
     })
   }
 

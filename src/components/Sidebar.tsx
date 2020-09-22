@@ -11,7 +11,7 @@ const SideBar: React.FC = () => {
   };
 
   return (
-    <div id="mySidebar" className="sidebar bg-dark">
+    <div id="mySidebar" className="sidebar bg-dark" style={{zIndex: '3'}}>
       <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>
         x
       </a>

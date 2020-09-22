@@ -164,7 +164,8 @@ ResolverGenerator._FKTable = function FKTable(tableName, primaryKey, joinTableNa
 ResolverGenerator._createValues = function values(primaryKey, foreignKeys, columns) {
   let index = 1;
   for (let columnName in columns) {
-    if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
+    // if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) { // why?
+    if (columnName !== primaryKey) {
       this._values[index++] = columnName;
     }
   }
