@@ -55,7 +55,7 @@ mySQLController.getTables = (req, res, next) => {
     }
 
     res.locals.tables = allTables;
-    console.log(res.locals.tables);
+    // console.log(res.locals.tables);
 
     return next();
   });
