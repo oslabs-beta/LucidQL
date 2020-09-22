@@ -4,7 +4,7 @@ export const Form = ({ onSubmit, onSubmitSample, mySQLButton }) => {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <h4>Welcome to LucidQL</h4>
+        <h4>LucidQL</h4>
         <p>Please enter a PostgresQL link below.</p>
         <div className="form-group">
           <label htmlFor="link">Link: </label>

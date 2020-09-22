@@ -16,10 +16,12 @@ const SideBar: React.FC = () => {
         x
       </a>
       <a href="#">Dashboard</a>
-      <a href="http://localhost:8081/playground" target="_blank" onClick={() => writeToDummyServer(data.schema, data.link)}>
+      <a href="http://lucidql.com/playground" target="_blank" onClick={() => writeToDummyServer(data.schema, data.link)}>
         GraphQL Playground
       </a>
-      <a href="#">View Source Code</a>
+      <a href="https://github.com/oslabs-beta/LucidQL" target="_blank">
+        View Source Code
+      </a>
     </div>
   );
 };

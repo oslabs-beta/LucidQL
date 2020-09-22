@@ -4,7 +4,7 @@ export const FormMySQL = ({ onSubmitMySQL, mySQLButton }) => {
   return (
     <div>
       <form onSubmit={onSubmitMySQL}>
-        <h4>Welcome to RESTlessQL</h4>
+        <h4>LucidQL</h4>
         <p>Please enter MySQL information below.</p>
         <div className="form-group">
           <label htmlFor="host">Host: </label>
