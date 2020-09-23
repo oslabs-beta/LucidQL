@@ -11,7 +11,7 @@
       </a>
   </h2>
  <h2>How does lucidQL work?</h2>
- <h4>First select an existing Postgres URI that you want to use to create a graphQL schema and paste that link into lucidQL and send it. lucidQL will create a schema and provide you with the required files to setup your back end with GraphQL, which includes a server file, a connection file, and a schema file. lucidQL also allows the user to simplify their schema by being able to delete any relationships they no longer require by dragging a relationship into the garbage container. The user can also undo a deletion. </h4>
+ <h4>First select an existing Postgres URI that you want to use to create a graphQL schema and paste that link into lucidQL and send it. lucidQL will create a schema and provide you with the required files to setup your back end with GraphQL, which includes a server file, a connection file, and a schema file. lucidQL also allows the user to simplify their schema by being able to delete any relationships that they no longer require by dragging a relationship into the garbage container. The user can also undo a deletion. </h4>
  <h4>The connection file connects your Postgres API to your server. The server file sets up your server and includes playground so that you can query the information from your API as needed. Lastly, your schema file will provide you with queries, mutations, and resolvers based on your Postgres URI.</h4>
  
   <h2 className="howto">
