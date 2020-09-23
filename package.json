@@ -78,10 +78,7 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.0.0",
     "html-webpack-plugin": "^4.4.1",
-<<<<<<< HEAD
     "jest-puppeteer": "^3.4.0",
-=======
->>>>>>> test2.1
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1",
     "style-loader": "^1.2.1",
