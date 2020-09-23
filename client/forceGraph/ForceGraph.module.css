@@ -31,11 +31,15 @@
 div.tooltip {
   position: absolute;
   text-align: center;
-  width: 110px;
+  width: 200px;
   padding: 10px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
+  font: 14px sans-serif;
+  /* background: lightsteelblue; */
+  background: #1a1a2e;
+  color: white;
   border: 0;
   border-radius: 8px;
   pointer-events: none;
+  z-index: 5;
+  line-height: 1.5rem;
 }
