@@ -1,0 +1,11 @@
+FROM node:10.15
+
+RUN npm install --global webpack
+
+WORKDIR /usr/src/app
+
+COPY package*.json /usr/src/app/
+
+RUN npm install
+
+EXPOSE 8081
