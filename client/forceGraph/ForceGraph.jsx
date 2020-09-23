@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, constSelector } from 'recoil';
 import { state } from '../App';
 import styles from './ForceGraph.module.css';
 import { generateNodeAndLink, compileToD3, filterTables } from './d3DataBuilder';
@@ -8,13 +8,10 @@ import { assembleSchema } from './generators/schemaGenerator';
 import deleteIconSrc from './delete.svg';
 
 // The ForceGraph component will be the container for the generated force graph and ForceGraphGenerator will generate the graph using D3.
-const deletedTables = []; // store deleted tableNames
-
 function ForceGraph({ nodeHoverTooltip }) {
   // React ref hook to reference the container element. (common practice for React + d3)
   const containerRef = useRef(null);
   const [data, setData] = useRecoilState(state);
-  // console.log('ForceGraph run! and tableData is: ', data.tables)
 
   function handleDeleteTables(tablesObj, tableToExclude) {
     const newTables = {};
@@ -24,7 +21,6 @@ function ForceGraph({ nodeHoverTooltip }) {
       if (Object.keys(table.columns).length === Object.keys(table.foreignKeys).length + 1) {
         // if this is a join table
         for (const key in table.foreignKeys) {
-          // console.log(key, table.foreignKeys[key].referenceTable)
           if (table.foreignKeys[key].referenceTable === tableToExclude) return true;
         }
       }
@@ -32,7 +28,6 @@ function ForceGraph({ nodeHoverTooltip }) {
     };
     for (const tableName in tablesObj) {
       if (tableName !== tableToExclude && !helperFuncOnJoinTable(tablesObj[tableName], tableToExclude)) {
-        // console.log(tableName)
         newTables[tableName] = {};
         newTables[tableName].primaryKey = tablesObj[tableName].primaryKey;
         newTables[tableName].columns = tablesObj[tableName].columns;
@@ -42,7 +37,6 @@ function ForceGraph({ nodeHoverTooltip }) {
             newFK[key] = tablesObj[tableName].foreignKeys[key];
           }
         }
-        // console.log('newFK is', newFK)
         newTables[tableName].foreignKeys = newFK;
         const newRefby = {};
         for (const refByTableName in tablesObj[tableName].referencedBy) {
@@ -53,25 +47,69 @@ function ForceGraph({ nodeHoverTooltip }) {
         newTables[tableName].referencedBy = newRefby;
       }
     }
-    // console.log('originalTables are: ', tablesObj)
-    console.log('newTables are: ', newTables);
-    // currentTables = newTables;
     const newSchema = assembleSchema(newTables);
+    const history = [...data.history, { table: tablesObj, schema: data.schema }];
+    setData({ ...data, tables: newTables, schema: newSchema, tableModified: true, history });
+  }
 
-    setData({ ...data, tables: newTables, schema: newSchema, tableModified: true });
+  function handleDeleteColumns(tablesObj, columnToExclude, parentName, foreignKeyToDelete) {
+    const newTables = {};
+    let FKTargetTable = null;
+    if (foreignKeyToDelete) {
+      FKTargetTable = tablesObj[parentName].foreignKeys[columnToExclude].referenceTable;
+    }
+
+    for (const tableName in tablesObj) {
+      if (tableName === parentName) {
+        const newColumns = {};
+        for (const objName in tablesObj[parentName].columns) {
+          if (objName !== columnToExclude) {
+            newColumns[objName] = tablesObj[parentName].columns[objName];
+          }
+        }
+
+        if (foreignKeyToDelete) {
+          // if foreignKeyToDelete is true, modify newForeignKeys
+          const newForeignKeys = {};
+          for (const objName in tablesObj[parentName].foreignKeys) {
+            if (objName !== columnToExclude) {
+              newForeignKeys[objName] = tablesObj[parentName].foreignKeys[objName];
+            }
+          }
+          newTables[tableName] = { ...tablesObj[tableName], columns: newColumns, foreignKeys: newForeignKeys };
+        } else {
+          // if foreignKeyToDelete is false...
+          newTables[tableName] = { ...tablesObj[tableName], columns: newColumns };
+        }
+      } else if (foreignKeyToDelete && tableName === FKTargetTable) {
+        // if we need to deal with a table that is referenced by this FK
+        const newRefby = {};
+        for (const refObjName in tablesObj[FKTargetTable].referencedBy) {
+          if (refObjName !== parentName) {
+            newRefby[refObjName] = tablesObj[FKTargetTable].referencedBy[refObjName];
+          }
+        }
+        newTables[FKTargetTable] = { ...tablesObj[FKTargetTable], referencedBy: newRefby };
+      } else {
+        // else for other tables we can just make a copy
+        newTables[tableName] = tablesObj[tableName];
+      }
+    }
+
+    const newSchema = assembleSchema(newTables);
+    const history = [...data.history, { table: tablesObj, schema: data.schema }];
+    setData({ ...data, tables: newTables, schema: newSchema, tableModified: true, history });
   }
 
   // useEffect hook to detect successful ref mount, as well as data change
   useEffect(() => {
     if (containerRef.current) {
       const currentRawData = compileToD3(data.tables); // to track rawData (for recalculation of d3Data)
-      console.log('currentRawData is: ', currentRawData);
       const currentD3Data = null;
 
-      const { newD3Data, newObj } = generateNodeAndLink(currentRawData, deletedTables);
-      console.log('in useEffect', newD3Data, newObj);
-
+      const { newD3Data, newObj } = generateNodeAndLink(currentRawData);
       if (data.tableModified) {
+        // if this is an update, clear up the svg before re-run graph
         d3.select(containerRef.current).html('');
       }
       runForceGraph(containerRef.current, newD3Data, newObj, nodeHoverTooltip);
@@ -79,12 +117,10 @@ function ForceGraph({ nodeHoverTooltip }) {
   }, [data.tables]);
 
   function runForceGraph(container, d3Data, rawData, nodeHoverTooltip) {
-    console.log('runForceGraph!', d3Data);
     const { tableNodes, columnNodes, referencedBy, pointsTo, linksToColumns } = d3Data;
 
     // get the container’s width and height from bounding rectangle:
     const containerRect = container.getBoundingClientRect();
-    // console.log('containerRect: ', containerRect)
     const { height } = containerRect;
     const { width } = containerRect;
 
@@ -106,7 +142,6 @@ function ForceGraph({ nodeHoverTooltip }) {
       const dragging = (event, d) => {
         d.fx = event.x;
         d.fy = event.y;
-        // deleteIcon.style('display', 'block');
       };
 
       const dragEnd = (event, d) => {
@@ -123,18 +158,15 @@ function ForceGraph({ nodeHoverTooltip }) {
         if (
           (2 * width) / 5 - deleteIconRadius < event.x &&
           event.x < (2 * width) / 5 + deleteIconRadius &&
-          (5 * deleteIconY) / 2 - deleteIconRadius < event.y &&
-          event.y < (5 * deleteIconY) / 2 + deleteIconRadius
+          3 * deleteIconY - deleteIconRadius < event.y &&
+          event.y < 3 * deleteIconY + deleteIconRadius
         ) {
-          // .attr('x', 2 * width / 5 - deleteIconRadius)
-          // .attr('y', 2 * deleteIconY - deleteIconRadius)
-
           if (event.subject.primary) {
             console.log('should delete table!', event.subject);
-            deletedTables.push(event.subject.name); // push to deletedTable array
             handleDeleteTables(data.tables, event.subject.name);
-          } else if (event.subject.foreignKey) console.log('cant');
-          else console.log('should delete column!', event.subject);
+          } else {
+            handleDeleteColumns(data.tables, event.subject.name, event.subject.parent, event.subject.foreignKey);
+          }
         }
       };
 
@@ -164,11 +196,12 @@ function ForceGraph({ nodeHoverTooltip }) {
       div.transition().duration(200).style('opacity', 0);
     };
 
-    // const nodesArr = [...tableNodes, ...columnNodes]
-    // const linksArr = [...referencedBy, ...pointsTo]
     const nodesArr = tableNodes.concat(columnNodes);
-    const linksArr = referencedBy.concat(pointsTo);
-    // console.log('run! nodesArr', nodesArr, linksArr)
+
+    // const linksArr = referencedBy.concat(pointsTo);
+    // linksToColumns
+    const linksArr = pointsTo;
+    const linesArr = linksToColumns.concat(referencedBy);
 
     const simulation = d3
       .forceSimulation(nodesArr)
@@ -177,22 +210,20 @@ function ForceGraph({ nodeHoverTooltip }) {
         d3
           .forceLink(linksArr)
           .id((d) => d.id)
-          .distance(300)
+          .distance(400)
           .strength(1)
       )
       .force(
         'line',
         d3
-          .forceLink(linksToColumns)
+          // .forceLink(linksToColumns)
+          .forceLink(linesArr)
           .id((d) => d.id)
-          .distance(50)
+          // .distance(60)
+          .distance((d) => (d.type ? 400 : 60))
       )
-      .force('charge', d3.forceManyBody().strength(-400)) // Negative numbers indicate a repulsive force and positive numbers an attractive force. Strength defaults to -30 upon installation.
-      .force(
-        'collide',
-        d3.forceCollide(20)
-        // .radius((d) => d.r || 20)
-      )
+      .force('charge', d3.forceManyBody().strength(-500)) // Negative numbers indicate a repulsive force and positive numbers an attractive force. Strength defaults to -30 upon installation.
+      .force('collide', d3.forceCollide(25))
       .force('x', d3.forceX()) // These two siblings push nodes towards the desired x and y position.
       .force('y', d3.forceY()); // default to the middle
 
@@ -209,25 +240,33 @@ function ForceGraph({ nodeHoverTooltip }) {
     const deleteIcon = svg
       .append('image')
       .attr('x', (2 * width) / 5 - deleteIconRadius)
-      .attr('y', (5 * deleteIconY) / 2 - deleteIconRadius)
+      .attr('y', 3 * deleteIconY - deleteIconRadius)
       .attr('width', 2 * deleteIconRadius)
       .attr('height', 2 * deleteIconRadius)
       .attr(
         'xlink:href',
         'https://toppng.com/uploads/preview/big-trash-can-vector-trash-can-icon-1156305906701r6eta2fm.png'
       );
-    // .attr('fill', 'black')
-    // .style('display', 'none');
 
     // Initialize the links between tables and its columns
     const line = svg
       .append('g')
       .attr('stroke', '#000')
-      .attr('stroke-opacity', 0.6)
+      .attr('stroke-opacity', 0.2)
       .selectAll('line')
+      // .data(linesArr)
       .data(linksToColumns)
-      .join('line')
-      .attr('stroke-width', (d) => Math.sqrt(d.value));
+      .join('line');
+
+    const refLine = svg
+      .append('g')
+      .attr('stroke', '#767c77')
+      .attr('stroke-opacity', 1)
+      .style('stroke-width', '1.5px')
+      .selectAll('line')
+      .data(referencedBy)
+      // .data(linksToColumns)
+      .join('line');
 
     // appending little triangles, path object, as arrowhead
     // The <defs> element is used to store graphical objects that will be used at a later time
@@ -241,15 +280,15 @@ function ForceGraph({ nodeHoverTooltip }) {
       .append('svg:marker')
       .attr('id', String)
       .attr('viewBox', '0 -5 10 10') // the bound of the SVG viewport for the current SVG fragment. defines a coordinate system 10 wide and 10 high starting on (0,-5)
-      .attr('refX', 32) // x coordinate for the reference point of the marker. If circle is bigger, this need to be bigger.
+      .attr('refX', 28) // x coordinate for the reference point of the marker. If circle is bigger, this need to be bigger.
       .attr('refY', 0)
       .attr('orient', 'auto')
-      .attr('markerWidth', 12)
-      .attr('markerHeight', 12)
+      .attr('markerWidth', 15)
+      .attr('markerHeight', 15)
       .attr('xoverflow', 'visible')
       .append('svg:path')
       .attr('d', 'M 0,-5 L 10,0 L 0,5')
-      .attr('fill', '#999')
+      .attr('fill', 'orange')
       .style('stroke', 'none');
 
     // add the curved line
@@ -259,8 +298,9 @@ function ForceGraph({ nodeHoverTooltip }) {
       .data(linksArr)
       .join('svg:path')
       .attr('fill', 'none')
-      .style('stroke', (d) => (d.type === 'pointsTo' ? 'orange' : '#c4fb6d'))
+      .style('stroke', (d) => (d.type === 'pointsTo' ? 'orange' : '#767c77'))
       .style('stroke-width', '1.5px')
+      // .attr('marker-end', (d) => (d.type === 'pointsTo' ? 'url(#end)' : null));
       .attr('marker-end', 'url(#end)');
     // The marker-end attribute defines the arrowhead or polymarker that will be drawn at the final vertex of the given shape.
 
@@ -271,33 +311,6 @@ function ForceGraph({ nodeHoverTooltip }) {
       .selectAll('circle')
       .data(nodesArr)
       .join('circle')
-      // .join(
-      //   enter => (
-      //     enter.append("circle")
-      //         .attr("cx", d => d * 15 + 10)
-      //         .attr("cy", 10)
-      //         .attr("r", 0)
-      //         .attr("fill", "cornflowerblue")
-      //       .call(enter => (
-      //         enter.transition().duration(1200)
-      //           .attr("cy", 10)
-      //           .attr("r", 6)
-      //           .style("opacity", 1)
-      //       ))
-      //   ),
-      //   update => (
-      //     update.attr("fill", "lightgrey")
-      //   ),
-      //   exit => (
-      //     exit.attr("fill", "tomato")
-      //       .call(exit => (
-      //         exit.transition().duration(1200)
-      //           .attr("r", 0)
-      //           .style("opacity", 0)
-      //           .remove()
-      //       ))
-      //   ),
-      // )
       .style('cursor', 'move')
       .attr('r', (d) => (d.primary ? 40 : 25))
       .attr('fill', (d) => (d.primary ? '#967bb6' : d.foreignKey ? 'orange' : '#aacfcf'))
@@ -335,6 +348,12 @@ function ForceGraph({ nodeHoverTooltip }) {
         .attr('x2', (d) => d.target.x)
         .attr('y2', (d) => d.target.y);
 
+      refLine
+        .attr('x1', (d) => d.source.x)
+        .attr('y1', (d) => d.source.y)
+        .attr('x2', (d) => d.target.x)
+        .attr('y2', (d) => d.target.y);
+
       // update node positions
       node.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
 
@@ -352,7 +371,7 @@ function ForceGraph({ nodeHoverTooltip }) {
     });
   }
 
-  // creating a reference to the div which will wrap the generated graph and nothing more.
+  // create a reference to the div which will wrap the generated graph and nothing more.
   return <svg ref={containerRef} className={styles.container} />;
 }
 

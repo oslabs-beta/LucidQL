@@ -157,7 +157,7 @@ TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns,
   let typeDef = '';
   for (const columnName in columns) {
     const { dataType, isNullable } = columns[columnName];
-    if (foreignKeys === null || !foreignKeys[columnName]) {
+    // if (foreignKeys === null || !foreignKeys[columnName]) { // why !foreignKeys[columnName]?
       // console.log(foreignKeys, 'columnName is', columnName, 'primaryKey is', primaryKey);
       if (!needId && columnName === primaryKey) {
         // handle mutation on creating
@@ -173,7 +173,7 @@ TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns,
         if (isNullable !== 'YES') typeDef += '!';
         typeDef += ',\n';
       }
-    }
+    // }
   }
   if (typeDef !== '') typeDef += '    ';
   return typeDef;
