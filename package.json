@@ -1,18 +1,34 @@
 {
-  "name": "LucidQLd",
+  "name": "LucidQL",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --coverage",
+    "test": "NODE_ENV=test jest --verbose",
     "start": "nodemon server/server.js",
     "build": "webpack --mode production",
     "dev": "nodemon server/server.js & webpack-dev-server --mode development --open --hot",
     "dev:hot": "NODE_ENV=development nodemon ./server/server.js & NODE_ENV=development webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./"
   },
+  "jest": {
+    "globalSetup": "./jest-setup.js",
+    "globalTeardown": "./jest-teardown.js",
+    "modulePaths": [
+      "__mocks__"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/build/"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.11.5",
     "@types/d3": "^5.7.2",
     "@types/d3-selection-multi": "^1.0.8",
     "@types/file-saver": "^2.0.1",
@@ -23,6 +39,7 @@
     "d3": "^6.1.1",
     "d3-selection": "^2.0.0",
     "d3-selection-multi": "^1.0.1",
+    "enzyme": "^3.11.0",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "file-saver": "^2.0.2",
@@ -46,6 +63,7 @@
     "react-router": "^5.2.0",
     "react-split-pane": "^2.0.3",
     "recoil": "0.0.10",
+    "regenerator-runtime": "^0.13.7",
     "vis-react": "^0.5.1"
   },
   "devDependencies": {
@@ -57,7 +75,6 @@
     "@babel/preset-typescript": "^7.10.4",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.2",
-    "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",

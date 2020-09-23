@@ -44,7 +44,7 @@ describe('Route integration', () => {
 
   describe('Get request to "/db/pg/sdl" endpoint', () => {
     describe('POST', () => {
-      it('responds with 400 status and application/json content type when not sending a request body', () =>
+      it('responds with 500 status and application/json content type when not sending a request body', () =>
         request(server)
           .post('/db/pg/sdl')
           .expect('Content-Type', /application\/json/)
