@@ -12,7 +12,18 @@
   },
   "jest": {
     "globalSetup": "./jest-setup.js",
-    "globalTeardown": "./jest-teardown.js"
+    "globalTeardown": "./jest-teardown.js",
+    "modulePaths": [
+      "__mocks__"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/build/"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +39,7 @@
     "d3": "^6.1.1",
     "d3-selection": "^2.0.0",
     "d3-selection-multi": "^1.0.1",
+    "enzyme": "^3.11.0",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "file-saver": "^2.0.2",
@@ -63,7 +75,6 @@
     "@babel/preset-typescript": "^7.10.4",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.2",
-    "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
