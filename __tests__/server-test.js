@@ -4,8 +4,6 @@ const server = 'http://localhost:8081';
 const path = require('path');
 const fs = require('fs');
 
-// ?query=%7B%0A%20%20people%20%7B%0A%20%20%20%20name%0A%20%20%20%20hair_color%0A%20%20%20%20eye_color%0A%20%20%7D%0A%7D%0A
-
 describe('Route integration', () => {
   describe('Get request to "/" endpoint', () => {
     describe('GET', () => {
