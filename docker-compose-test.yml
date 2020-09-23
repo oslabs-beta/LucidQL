@@ -1,0 +1,21 @@
+version: '3.0'
+services:
+  test:
+    image: dockerizedgraphql/cql-dev
+    container_name: 'cql-test'
+    ports:
+      - '8081:8081'
+    volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    command: npm test
+    depends_on:
+      - cql-prod
+  cql-prod:
+    image: dockerizedgraphql/cql-prod
+    container_name: 'cql-prod'
+    volumes:
+      - node_modules2:/usr/src/app/node_modules
+volumes:
+  node_modules:
+  node_modules2:
