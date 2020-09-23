@@ -15,15 +15,33 @@ export const Form = ({ onSubmit, onSubmitSample, mySQLButton }) => {
           <input className="form-control" id="link" />
         </div>
         <div className="form-group">
+<<<<<<< HEAD
           <button className="form-control btn btn-light" id="submit" type="submit">
+=======
+          <button className="form-control btn btn-light" id="testenzyme3" type="submit">
+>>>>>>> test2.1
             Submit
           </button>
           <hr />
-          <button className="form-control btn btn-light secondary-btn" type="button" onClick={(e) => onSubmitSample(e)}>
+          <button
+            className="form-control btn btn-light secondary-btn"
+            type="button"
+            id="testenzyme"
+            onClick={(e) => onSubmitSample(e)}
+          >
             Use Sample Postgres URI
           </button>
           <p></p>
+<<<<<<< HEAD
           <button className="form-control btn btn-light secondary-btn mySQL" type="button" onClick={(e) => mySQLButton(e)}>
+=======
+          <button
+            className="form-control btn btn-light secondary-btn"
+            type="button"
+            id="testenzyme2"
+            onClick={(e) => mySQLButton(e)}
+          >
+>>>>>>> test2.1
             Use MySQL Database
           </button>
         </div>
