@@ -1,8 +1,7 @@
+// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 const request = require('supertest');
 
 const server = 'http://localhost:8081';
-const path = require('path');
-const fs = require('fs');
 
 describe('Route integration', () => {
   describe('Get request to "/" endpoint', () => {
@@ -43,15 +42,15 @@ describe('Route integration', () => {
     });
   });
 
-  describe('Get request to "/db/pg/sdl" endpoint with no body', () => {
+  describe('Get request to "/db/pg/sdl" endpoint', () => {
     describe('POST', () => {
-      it('responds with 400 status and application/json content type', () =>
+      it('responds with 400 status and application/json content type when not sending a request body', () =>
         request(server)
           .post('/db/pg/sdl')
           .expect('Content-Type', /application\/json/)
           .expect(500));
 
-      it('responds with 200 status and application/json content type', () =>
+      it('responds with 200 status and application/json content type when sending URI', () =>
         request(server)
           .post('/db/pg/sdl')
           .send({ uri: 'postgres://mxnahgtg:V5_1wi1TPrDLRvmsl0pKczgf9SMQy1j6@lallah.db.elephantsql.com:5432/mxnahgtg' })

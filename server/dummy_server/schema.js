@@ -20,6 +20,8 @@ const typeDefs = `
   type Mutation {
     createPerson(
       gender: String,
+      species_id: Int,
+      homeworld_id: Int,
       height: Int,
       mass: String,
       hair_color: String,
@@ -31,6 +33,8 @@ const typeDefs = `
 
     updatePerson(
       gender: String,
+      species_id: Int,
+      homeworld_id: Int,
       height: Int,
       _id: Int!,
       mass: String,
@@ -100,6 +104,7 @@ const typeDefs = `
       skin_colors: String,
       eye_colors: String,
       language: String,
+      homeworld_id: Int,
     ): Species!
 
     updateSpecies(
@@ -111,6 +116,7 @@ const typeDefs = `
       skin_colors: String,
       eye_colors: String,
       language: String,
+      homeworld_id: Int,
       _id: Int!,
     ): Species!
 
@@ -150,12 +156,14 @@ const typeDefs = `
     deleteVessel(_id: ID!): Vessel!
 
     createStarshipSpec(
+      vessel_id: Int!,
       MGLT: String,
       hyperdrive_rating: String,
     ): StarshipSpec!
 
     updateStarshipSpec(
       _id: Int!,
+      vessel_id: Int!,
       MGLT: String,
       hyperdrive_rating: String,
     ): StarshipSpec!
@@ -360,8 +368,8 @@ const resolvers = {
 
   Mutation: {
     createPerson: (parent, args) => {
-      const query = 'INSERT INTO people(gender, height, mass, hair_color, skin_color, eye_color, name, birth_year) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-      const values = [args.gender, args.height, args.mass, args.hair_color, args.skin_color, args.eye_color, args.name, args.birth_year];
+      const query = 'INSERT INTO people(gender, species_id, homeworld_id, height, mass, hair_color, skin_color, eye_color, name, birth_year) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+      const values = [args.gender, args.species_id, args.homeworld_id, args.height, args.mass, args.hair_color, args.skin_color, args.eye_color, args.name, args.birth_year];
       try {
         return db.query(query, values).then(res => res.rows[0]);
       } catch (err) {
@@ -370,8 +378,8 @@ const resolvers = {
     },
     updatePerson: (parent, args) => {
       try {
-        const query = 'UPDATE people SET gender=$1, height=$2, mass=$3, hair_color=$4, skin_color=$5, eye_color=$6, name=$7, birth_year=$8 WHERE _id = $9 RETURNING *';
-        const values = [args.gender, args.height, args.mass, args.hair_color, args.skin_color, args.eye_color, args.name, args.birth_year, args._id];
+        const query = 'UPDATE people SET gender=$1, species_id=$2, homeworld_id=$3, height=$4, mass=$5, hair_color=$6, skin_color=$7, eye_color=$8, name=$9, birth_year=$10 WHERE _id = $11 RETURNING *';
+        const values = [args.gender, args.species_id, args.homeworld_id, args.height, args.mass, args.hair_color, args.skin_color, args.eye_color, args.name, args.birth_year, args._id];
         return db.query(query, values).then((res) => res.rows[0]);
       } catch (err) {
         throw new Error(err);
@@ -444,8 +452,8 @@ const resolvers = {
     },
 
     createSpecies: (parent, args) => {
-      const query = 'INSERT INTO species(hair_colors, name, classification, average_height, average_lifespan, skin_colors, eye_colors, language) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-      const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language];
+      const query = 'INSERT INTO species(hair_colors, name, classification, average_height, average_lifespan, skin_colors, eye_colors, language, homeworld_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+      const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language, args.homeworld_id];
       try {
         return db.query(query, values).then(res => res.rows[0]);
       } catch (err) {
@@ -454,8 +462,8 @@ const resolvers = {
     },
     updateSpecies: (parent, args) => {
       try {
-        const query = 'UPDATE species SET hair_colors=$1, name=$2, classification=$3, average_height=$4, average_lifespan=$5, skin_colors=$6, eye_colors=$7, language=$8 WHERE _id = $9 RETURNING *';
-        const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language, args._id];
+        const query = 'UPDATE species SET hair_colors=$1, name=$2, classification=$3, average_height=$4, average_lifespan=$5, skin_colors=$6, eye_colors=$7, language=$8, homeworld_id=$9 WHERE _id = $10 RETURNING *';
+        const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language, args.homeworld_id, args._id];
         return db.query(query, values).then((res) => res.rows[0]);
       } catch (err) {
         throw new Error(err);
@@ -500,8 +508,8 @@ const resolvers = {
     },
 
     createStarshipSpec: (parent, args) => {
-      const query = 'INSERT INTO starship_specs(MGLT, hyperdrive_rating) VALUES($1, $2) RETURNING *';
-      const values = [args.MGLT, args.hyperdrive_rating];
+      const query = 'INSERT INTO starship_specs(vessel_id, MGLT, hyperdrive_rating) VALUES($1, $2, $3) RETURNING *';
+      const values = [args.vessel_id, args.MGLT, args.hyperdrive_rating];
       try {
         return db.query(query, values).then(res => res.rows[0]);
       } catch (err) {
@@ -510,8 +518,8 @@ const resolvers = {
     },
     updateStarshipSpec: (parent, args) => {
       try {
-        const query = 'UPDATE starship_specs SET MGLT=$1, hyperdrive_rating=$2 WHERE _id = $3 RETURNING *';
-        const values = [args.MGLT, args.hyperdrive_rating, args._id];
+        const query = 'UPDATE starship_specs SET vessel_id=$1, MGLT=$2, hyperdrive_rating=$3 WHERE _id = $4 RETURNING *';
+        const values = [args.vessel_id, args.MGLT, args.hyperdrive_rating, args._id];
         return db.query(query, values).then((res) => res.rows[0]);
       } catch (err) {
         throw new Error(err);
