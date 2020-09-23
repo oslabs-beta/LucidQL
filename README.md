@@ -54,6 +54,7 @@
      <h3>Martin Chiang</h3>
       <h3>Stanley Huang</h3>
        <h3>Darwin Sinchi</h3>
+       <h1>MIT License</h1>
 
      
           
