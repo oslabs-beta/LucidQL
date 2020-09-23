@@ -1,5 +1,5 @@
 {
-  "name": "LucidQL",
+  "name": "LucidQLd",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -57,6 +57,8 @@
     "@babel/preset-typescript": "^7.10.4",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.2.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.4",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
