@@ -1,6 +1,6 @@
 FROM node:12.18.3
 
-RUN npm install --global webpack jest typescript
+RUN npm install --global jest
 
 WORKDIR /usr/src/app
 
@@ -8,7 +8,7 @@ COPY . /usr/src/app
 
 RUN npm install
 
-RUN npm install --save-dev supertest
+RUN npm run build
 
 EXPOSE 8081
 

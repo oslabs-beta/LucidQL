@@ -9,13 +9,5 @@ services:
       - .:/usr/src/app
       - node_modules:/usr/src/app/node_modules
     command: npm test
-    depends_on:
-      - cql-prod
-  cql-prod:
-    image: dockerizedgraphql/cql-prod
-    container_name: 'cql-prod'
-    volumes:
-      - node_modules2:/usr/src/app/node_modules
 volumes:
   node_modules:
-  node_modules2:
