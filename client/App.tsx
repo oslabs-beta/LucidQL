@@ -4,7 +4,6 @@ import LinkContainer from './components/link-popup/LinkContainer';
 import TopNav from './components/nav-bars/TopNav';
 import CodeBox from './components/codebox';
 import SplitPane from 'react-split-pane';
-import TableController from './forceGraph/TableController';
 import ForceGraph from './forceGraph/ForceGraph';
 import Footer from './components/nav-bars/Footer';
 import Sidebar from './components/Sidebar';
@@ -18,6 +17,7 @@ export const state = atom({
     schema: '',
     tables: {},
     tableModified: false,
+    history: [],
   },
 });
 
@@ -29,15 +29,26 @@ const App: React.FC = () => {
   };
 
   const nodeHoverTooltip = React.useCallback((node) => {
-    if (node.primary) return `<p>${node.name}</p>\n<button>Add Column</button><button>Add Relations</button><button>Delete</button>`
-    else return `<p>${node.name}</p>\n<button>Delete</button>`
+    if (node.primary) return (`<h4>Table: ${node.name}</h4><p>(SQL info)</br>Primary Key : ${node.primaryKey}</br>Columns Count : ${node.columnCount}</br>Foreign Keys :</br>${node.foreignKeys.length > 0? node.foreignKeys : 'N/A'}</br>Referenced by :</br>${node.referencedBy.length > 0 ? node.referencedBy : 'N/A'}`)
+    else return `<h5>Column: ${node.name}</h5><p>(SQL info)</br>dataType : ${node.dataType}</br>isNullable : ${node.isNullable}</br>charMaxLength : ${node.charMaxLength}</br>columnDefault : ${node.columnDefault}</p>`
   }, []);
+
+  const handleUndo = () => {
+    if (data.history.length > 0) {
+      const newHistory = [...data.history]
+      const prevData = newHistory.pop(); // take last obj out of history
+      const prevTable = prevData.table;
+      const prevSchema = prevData.schema;
+      setData({ ...data, schema: prevSchema, tables: prevTable, history: newHistory });
+    }
+  }
 
   const annotation = () => {
     return (
-      <div style={{ position: 'fixed', top: '10vh', left: '5vw'}}>
-        <h5 style={{color: "orange", fontWeight: "bolder"}}> ⟶ Foreign Key To</h5>
-        <h5 style={{color: "#C4FB6D", fontWeight: "bolder"}}> ⟶ Referenced By</h5>
+      <div style={{ position: 'fixed', bottom: '6vh', left: '1vw', zIndex: '2'}}>
+        <h6 style={{color: "orange", fontWeight: "bolder"}}> ⟶ Foreign Key To (Postgres)</h6>
+        <h6 style={{color: "#767c77", fontWeight: "bolder"}}> ⎯⎯⎯⎯⎯ Able To Query Each Other (GraphQL)</h6>
+        <button className="form-control btn btn-light" onClick={()=>handleUndo()} >⎌ UNDO</button>
       </div>
     )
   }
@@ -51,7 +62,6 @@ const App: React.FC = () => {
         <SplitPane split="vertical" minSize={50} resizerClassName="Resizer" resizerStyle={{ width: '20px' }}>
         <div className="graph-div">
             {!data.modal ? annotation() : null }
-            {!data.modal ? <TableController /> : null }
             {!data.modal ? <ForceGraph nodeHoverTooltip={nodeHoverTooltip} /> : null} 
           </div>
           <div className="code-box">
