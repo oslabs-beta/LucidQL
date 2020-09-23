@@ -49,13 +49,14 @@ const Footer: React.FC = () => {
         <Nav>
           <Form inline>
             <Button
+              id="downloadButton1"
               className="btn btn-light"
               style={{ marginRight: '5px' }}
               onClick={() => writeToDummyServer(data.schema, data.link)}
             >
               Push Schema to Server
             </Button>
-            <Button className="btn btn-light" onClick={(e) => handleDownloadFiles(e)}>
+            <Button id="downloadButton2" className="btn btn-light" onClick={(e) => handleDownloadFiles(e)}>
               Download All Files
             </Button>
           </Form>
