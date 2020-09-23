@@ -1,13 +1,6 @@
 export const generateNodeAndLink = (data) => {
-  const newD3Data = { tableNodes:[], columnNodes:[], referencedBy:[], pointsTo: [], linksToColumns:[] };
-  const newObj = {};
-  // console.log('data in generateNodeAndLink', data)
-  for (let tableName in data) {
-    newObj[tableName] = data[tableName] // make a copy to newObj
-
-    // console.log('tableName', tableName)
-    // console.log('data[tableName]', data[tableName])
-    // handle table node
+  const d3Arrays = { tableNodes:[], columnNodes:[], referencedBy:[], pointsTo: [], linksToColumns:[] };
+  for (let tableName in data) {    // handle table node
     const parentNode = {
       id: `Parent-${tableName}`,
       name: tableName,
@@ -17,28 +10,24 @@ export const generateNodeAndLink = (data) => {
       columnCount: data[tableName].columns.length,
       referencedBy: data[tableName].referencedBy
     }
-    newD3Data.tableNodes.push(parentNode);
+    d3Arrays.tableNodes.push(parentNode);
   
     // handle links between tables
     data[tableName].pointsTo.forEach((targetTable) => {
-      // if (!deletedTables.includes(tableName) && !deletedTables.includes(targetTable)) {
         const parentLink = {
           source: `Parent-${tableName}`,
           target: `Parent-${targetTable}`,
           type: 'pointsTo',
         }
-        newD3Data.pointsTo.push(parentLink);
-      // }
+        d3Arrays.pointsTo.push(parentLink);
     })
     data[tableName].referencedBy.forEach(refTable => {
-      // if (!deletedTables.includes(refTable) && !deletedTables.includes(tableName)) {
         const parentLink = {
           source: `Parent-${refTable}`,
           target: `Parent-${tableName}`,
           type: 'referencedBy',
         }
-        newD3Data.referencedBy.push(parentLink);
-      // }
+        d3Arrays.referencedBy.push(parentLink);
     })
 
     // handle links between column and its parent
@@ -56,22 +45,19 @@ export const generateNodeAndLink = (data) => {
       if (data[tableName].foreignKeys.includes(columnObj.columnName)) { // if this column is a foreign key
         childNode.foreignKey = true;
       }
-      newD3Data.columnNodes.push(childNode);
-      newD3Data.linksToColumns.push(childLink)
+      d3Arrays.columnNodes.push(childNode);
+      d3Arrays.linksToColumns.push(childLink)
     })  
   }
-  // console.log('newD3Data in dataBuilder', newD3Data);
-  // console.log('newObj in dataBuilder', newObj);
-  return { newD3Data, newObj };
+  return d3Arrays;
 };
 
-export const compileToD3 = (OriginalTables) => {
+export const simplifyTable = (OriginalTables) => {
   const newTables = {};
 
   for (const table in OriginalTables) {
     const currentTable = OriginalTables[table];
-    // if this is not a join table
-    if (
+    if (    // if this is not a join table
       !currentTable.foreignKeys ||
       Object.keys(currentTable.columns).length !== Object.keys(currentTable.foreignKeys).length + 1
     ) {
@@ -89,8 +75,7 @@ export const compileToD3 = (OriginalTables) => {
             Object.keys(OriginalTables[refTableName].foreignKeys).length + 1
         ) {
           referencedBy.push(refTableName);
-        } else {
-          // else it's a join table
+        } else {  // else it's a join table
           for (const foreignKey in OriginalTables[refTableName].foreignKeys) {
             const joinedTable = OriginalTables[refTableName].foreignKeys[foreignKey].referenceTable;
             if (joinedTable !== table) {

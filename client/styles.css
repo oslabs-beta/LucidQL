@@ -77,17 +77,42 @@ body {
   background-color: #f5f5f5;
 }
 
-.empty-graph {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  border: 1px solid black;
+.annotation {
+  position: fixed; 
+  bottom: 6vh; 
+  left: 1vw; 
+  z-index: 2;
 }
 
-.graph {
-  border: 1px solid black;
+.SVG_container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.primary_node {
+  font-size: 24px;
+  fill: white;
+}
+
+.column_node {
+  font-size: 12px;
+  fill: white
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 200px;
+  padding: 10px;
+  font: 14px sans-serif;
+  background: #1a1a2e;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 5;
+  line-height: 1.5rem;
 }
 
 /* ---Codebox CSS--- */
