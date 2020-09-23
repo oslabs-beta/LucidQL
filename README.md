@@ -1,6 +1,6 @@
 # lucidQL
  <h4 className="text">
-          A developer tool that generates GraphQL from an established relational database and allows the user to view and simplify these relations.
+          A developer tool that generates a GraphQL schema from an established relational database and allows the user to view and simplify these relations.
  </h4>
  <h2>What is lucidQL?</h2>
   <h4>lucidQL is an open-source tool to assist developers in the migration from a legacy RESTful API to GraphQL. It also serves as a visualizer tool. lucidQL allows the user to view the GraphQL schema layout and relationships between data, which is rendered using D3.
