@@ -8,7 +8,7 @@
 
 lucidQL is an open-source tool to assist developers in the migration from a legacy RESTful API to GraphQL. It also serves as a visualizer tool for your GraphQL API. lucidQL allows the user to view the GraphQL schema layout and relationships between data.
 
-<a class="nav-link" href="http://www.lucidql.com/">Check out our app here</a>
+Check out the tool - <a class="nav-link" href="http://www.lucidql.com/">www.lucidQL.com</a>
 
 ### How does lucidQL work?
 
@@ -22,15 +22,13 @@ The lucidQL tool allows the user to simplify their schema by being able to delet
 
 - If any tables are undesired in the final product, simply drag a table to the garbage icon, lucidQL will handle the rest.
 - The GraphQL schemas will be regenerated accordingly to your changes.
-- if you make a mistake, simply click the undo button.
+- if you make a mistake, simply click the "undo" button.
 
 ![Image of Dragging to Garbage](https://media.giphy.com/media/9NEeXDUayldkGkok4k/giphy.gif)
 
-The connection file connects your Postgres API to your server. The server file sets up your server and includes playground so that you can query the information from your API as needed. Lastly, your schema file will provide you with queries, mutations, and resolvers based on your pre-existing relational database.
-
 ### How to Test Your Schema, Resolvers and Mutations
 
-##### Option A:
+#### Option A:
 
 Enter your Postgres URI and start testing your GraphQL API right away!
 
@@ -38,17 +36,23 @@ The lucidQL tool comes pre-packaged with a backend, which enables the user to ac
 
 <img src="https://media.giphy.com/media/KQzFl6vK3nVXqn9UaO/giphy.gif" width="800"/>
 
-##### Option B:
+#### Option B:
 
 Download the package by clicking on the "Download" button
 
 1. Download Files
 2. Unzip package
 3. Open directory
-4. Install dependencies `npm install`
-5. Run the application `npm start`
+4. Install dependencies: `npm install`
+5. Run the application: `npm start`
 6. Once the application is running, enter localhost:3000/playground in your browser to start querying your database
 7. Test and Query!
+
+The downloaded package includes the following -
+
+- A connection file connects your Postgres API to your server.
+- The server file sets up your server and includes playground so that you can query the information from your API as needed.
+- Lastly, your schema file will provide you with queries, mutations, and resolvers based on your pre-existing relational database.
 
 ### Contributing
 
