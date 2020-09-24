@@ -1,4 +1,4 @@
-![Image of Logo](/public/logo-for-github.jpg)
+![Image of Logo](https://github.com/oslabs-beta/LucidQL/blob/master/public/logo-for-github.jpg?raw=true)
 
 #
 
