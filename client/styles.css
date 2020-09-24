@@ -44,23 +44,9 @@ body {
   width: 1.5%;
 }
 
-.logo-text {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  margin-left: 2px;
-  font-size: 26px;
-  color: #967bb6;
-  margin-right: 0;
-}
-
-.logo-text2 {
-  font-family: 'Montserrat', sans-serif;
-  /* font-weight: 600; */
-  margin-left: 2px;
-  font-size: 26px;
-  color: #939393;
-  margin: 0;
-  padding: 0;
+.logo-brand {
+  width: 15%;
+  margin: 0px auto;
 }
 
 .footer {

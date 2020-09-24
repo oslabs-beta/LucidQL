@@ -1,11 +1,15 @@
-FROM node:10.15
+FROM node:12.18.3
 
-RUN npm install --global webpack
+RUN npm install --global jest
 
 WORKDIR /usr/src/app
 
-COPY package*.json /usr/src/app/
+COPY . /usr/src/app
 
 RUN npm install
 
+RUN npm run build
+
 EXPOSE 8081
+
+ENTRYPOINT [ "npm", "test" ]
