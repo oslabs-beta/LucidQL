@@ -56,10 +56,10 @@ We would love for you to test this application out and submit any issues you enc
 
 Here are some of the ways you can start contributing!
 
-- Bug Fixes.
-- Adding Features (Check Future Features above).
-- Submitting or resolving any GitHub Issues.
-- Help market our platform.
+- Bug Fixes
+- Adding Features (Check Future Features above)
+- Submitting or resolving any GitHub Issues
+- Help market our platform
 - Any way that can spread word or improve lucidQL
 
 ### Authors
