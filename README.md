@@ -34,9 +34,9 @@ The connection file connects your Postgres API to your server. The server file s
 
 Enter your Postgres URI and start testing your GraphQL API right away!
 
-The lucidQL tool comes pre-packaged with a backend, which enables the user to access GraphQL playground and test querying immediately. After entering a Postgres URI. The user will just have to click on "GraphQL PLayground" which can be accessed through the side menu bar.
+The lucidQL tool comes pre-packaged with a backend, which enables the user to access GraphQL playground and start querying your new API, immediately. After entering a Postgres URI. The user will just have to click on "GraphQL PLayground" which can be accessed through the side menu bar.
 
-![Image of GraphQL Playground](https://media.giphy.com/media/Fh1DzzBFmRmZcSPVBO/giphy.gif)
+<img src="https://media.giphy.com/media/KQzFl6vK3nVXqn9UaO/giphy.gif" width="800"/>
 
 ##### Option B:
 
