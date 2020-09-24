@@ -28,6 +28,7 @@ describe('Front-end Integration/Features', () => {
     });
 
     it('displays a usable input field for a Postgres URI', async () => {
+      await page.goto(APP);
       await page.waitForSelector('.form-group');
       await page.focus('#link');
       await page.keyboard.type('www.sometestlink.com');
@@ -36,13 +37,15 @@ describe('Front-end Integration/Features', () => {
     });
 
     it('clicking on submit while input is empty does not close modal', async () => {
+      await page.goto(APP);
       await page.waitForSelector('.modal-body');
       const title = await page.$eval('h3', (el) => el.innerHTML);
-      await page.click('#submit');
+      await page.click('.submit');
       expect(title).toBe('LucidQL');
     });
 
     it('MySQL button exists on modal', async () => {
+      await page.goto(APP);
       await page.waitForSelector('.modal-body');
       const mySQLButton = await page.$eval('.mySQL', (el) => el.innerHTML);
       expect(mySQLButton).toBe('Use MySQL Database');

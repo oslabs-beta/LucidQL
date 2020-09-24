@@ -11,12 +11,12 @@ const SideBar: React.FC = () => {
   };
 
   return (
-    <div id="mySidebar" className="sidebar bg-dark" style={{zIndex: '3'}}>
+    <div id="mySidebar" className="sidebar bg-dark" style={{ zIndex: '3' }}>
       <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>
         x
       </a>
       <a href="#">Dashboard</a>
-      <a href="http://lucidql.com/playground" target="_blank" onClick={() => writeToDummyServer(data.schema, data.link)}>
+      <a href="http://www.lucidql.com/playground" target="_blank" onClick={() => writeToDummyServer(data.schema, data.link)}>
         GraphQL Playground
       </a>
       <a href="https://github.com/oslabs-beta/LucidQL" target="_blank">
