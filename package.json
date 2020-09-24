@@ -1,6 +1,6 @@
 {
   "name": "LucidQL",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A developer tool that helps developers migrate to a GraphQL API from an established relational database and allows the user to view and simplify these relations.",
   "authors": "Darwin Sinchi, Martin Chiang, Stanley Huang",
   "license": "MIT",
