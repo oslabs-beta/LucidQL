@@ -1,4 +1,4 @@
-![Image of Logo](https://github.com/oslabs-beta/LucidQL/blob/master/public/logo-for-github.jpg?raw=true)
+![Image of Logo](/public/logo-for-github.jpg)
 
 #
 
@@ -12,7 +12,19 @@ lucidQL is an open-source tool to assist developers in the migration from a lega
 
 ### How does lucidQL work?
 
-First choose your desired Postgres database that you want to use to create a graphQL API, and paste that link into lucidQL and click submit. lucidQL will create a schema and provide you with the required files to setup your back end with GraphQL, which includes a server file, a connection file, and a schema file. lucidQL also allows the user to simplify their schema by being able to delete any relationships that they no longer require.
+First choose your desired Postgres database that you want to use to create a graphQL API, and enter the link where prompted, and click submit. lucidQL will immediately start by reading your database, extracting all the tables, and their relationships, and generate a GraphQL schema.
+
+![Image of Entering Link](https://media.giphy.com/media/1N6nX99joOh2zUGkAw/giphy.gif)
+
+A visual representation will display on the left side of the tool, users can analyze their current database and their table relationships.
+
+The lucidQL tool allows the user to simplify their schema by being able to delete any relationships that they no longer require.
+
+- If any tables are undesired in the final product, simply drag a table to the garbage icon, lucidQL will handle the rest.
+- The GraphQL schemas will be regenerated accordingly to your changes.
+- if you make a mistake, simply click the undo button.
+
+![Image of Dragging to Garbage](https://media.giphy.com/media/9NEeXDUayldkGkok4k/giphy.gif)
 
 The connection file connects your Postgres API to your server. The server file sets up your server and includes playground so that you can query the information from your API as needed. Lastly, your schema file will provide you with queries, mutations, and resolvers based on your pre-existing relational database.
 
@@ -20,19 +32,23 @@ The connection file connects your Postgres API to your server. The server file s
 
 ##### Option A:
 
-lucidQL provides access to GraphQL playground to query an existing database. The user will just have to click on "GraphQL PLayground" which is found on the top left side of the page within the Navbar Icon. After clicking this button, the user will be redirected to GraphQL playground.
+Enter your Postgres URI and start testing your GraphQL API right away!
 
-![Image of GraphQL Playground](https://media.giphy.com/media/HhVpUqlOj2T4Bwme8K/giphy.gif)
+The lucidQL tool comes pre-packaged with a backend, which enables the user to access GraphQL playground and test querying immediately. After entering a Postgres URI. The user will just have to click on "GraphQL PLayground" which can be accessed through the side menu bar.
+
+![Image of GraphQL Playground](https://media.giphy.com/media/Fh1DzzBFmRmZcSPVBO/giphy.gif)
 
 ##### Option B:
 
+Download the package by clicking on the "Download" button
+
 1. Download Files
-   - via the download button on the bottom right hand side of the app
 2. Unzip package
 3. Open directory
 4. Install dependencies `npm install`
 5. Run the application `npm start`
 6. Once the application is running, enter localhost:3000/playground in your browser to start querying your database
+7. Test and Query!
 
 ### Contributing
 
