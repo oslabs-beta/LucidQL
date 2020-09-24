@@ -28,19 +28,15 @@ The lucidQL tool allows the user to simplify their schema by being able to delet
 
 ### How to Test Your Schema, Resolvers and Mutations
 
-#### Option A:
-
-Enter your Postgres URI and start testing your GraphQL API right away!
+#### Option A: Enter your Postgres URI and start testing your GraphQL API right away!
 
 The lucidQL tool comes pre-packaged with a backend, which enables the user to access GraphQL playground and start querying your new API, immediately. After entering a Postgres URI. The user will just have to click on "GraphQL PLayground" which can be accessed through the side menu bar.
 
 <img src="https://media.giphy.com/media/KQzFl6vK3nVXqn9UaO/giphy.gif" width="800"/>
 
-#### Option B:
+#### Option B: Download your package by clicking on the "Download" button
 
-Download the package by clicking on the "Download" button
-
-1. Download Files
+1. Download and Save
 2. Unzip package
 3. Open directory
 4. Install dependencies: `npm install`
