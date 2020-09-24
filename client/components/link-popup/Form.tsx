@@ -6,8 +6,8 @@ export const Form = ({ onSubmit, onSubmitSample, mySQLButton }) => {
       <form onSubmit={onSubmit}>
         <h3>LucidQL</h3>
         <br />
-        <h6>Quickly Build Your GraphQL API from Existing Postgres Database.</h6>
-        <h6>Drag to Trash Can will exclude Table/Column You Do Not Need from GraphQL schema.</h6>
+        <h6>Quickly build your GraphQL API from an existing Postgres database.</h6>
+        <h6>Dragging to trash can will remove Table or Columns you do not need from your GraphQL schema.</h6>
         <br />
         <p>Please enter a PostgresQL link below.</p>
         <div className="form-group">
