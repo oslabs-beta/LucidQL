@@ -1,5 +1,5 @@
-node_modules/
+node_modules
 .env
 .DS_Store
 coverage/
-package-lock.json
+build
