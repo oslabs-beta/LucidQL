@@ -6,15 +6,15 @@
 
 ### What is lucidQL?
 
-lucidQL is an open-source tool to assist developers in the migration from a legacy RESTful API to GraphQL. It also serves as a visualizer tool. lucidQL allows the user to view the GraphQL schema layout and relationships between data, which is rendered using D3.
+lucidQL is an open-source tool to assist developers in the migration from a legacy RESTful API to GraphQL. It also serves as a visualizer tool for your GraphQL API. lucidQL allows the user to view the GraphQL schema layout and relationships between data.
 
-<a class="nav-link" href="http://www.lucidql.com/">Check out our website here</a>
+<a class="nav-link" href="http://www.lucidql.com/">Check out our app here</a>
 
 ### How does lucidQL work?
 
-First select an existing Postgres URI that you want to use to create a graphQL schema and paste that link into lucidQL and send it. lucidQL will create a schema and provide you with the required files to setup your back end with GraphQL, which includes a server file, a connection file, and a schema file. lucidQL also allows the user to simplify their schema by being able to delete any relationships that they no longer require by dragging a relationship into the garbage container. The user can also undo a deletion.
+First choose your desired Postgres database that you want to use to create a graphQL API, and paste that link into lucidQL and click submit. lucidQL will create a schema and provide you with the required files to setup your back end with GraphQL, which includes a server file, a connection file, and a schema file. lucidQL also allows the user to simplify their schema by being able to delete any relationships that they no longer require.
 
-The connection file connects your Postgres API to your server. The server file sets up your server and includes playground so that you can query the information from your API as needed. Lastly, your schema file will provide you with queries, mutations, and resolvers based on your Postgres URI.
+The connection file connects your Postgres API to your server. The server file sets up your server and includes playground so that you can query the information from your API as needed. Lastly, your schema file will provide you with queries, mutations, and resolvers based on your pre-existing relational database.
 
 ### How to Test Your Schema, Resolvers and Mutations
 
