@@ -39,7 +39,7 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
 
       // check if nodes are being dragged to the trash can
       if (2 * width / 5 - deleteIconRadius < event.x && event.x < 2 * width / 5 + deleteIconRadius &&
-        3 * deleteIconY  - deleteIconRadius < event.y && event.y < 3 * deleteIconY + deleteIconRadius) {
+        2 * deleteIconY  - deleteIconRadius < event.y && event.y < 2 * deleteIconY + deleteIconRadius) {
           
         if (event.subject.primary) {
           handleDeleteTables(data, event.subject.name);
@@ -119,10 +119,12 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
   // }
 
   const deleteIcon = svg.append('image')
+    // .attr('x', 2 * width / 5 - deleteIconRadius)
+    // .attr('y', 3 * deleteIconY - deleteIconRadius)
     .attr('x', 2 * width / 5 - deleteIconRadius)
-    .attr('y', 3 * deleteIconY - deleteIconRadius)
-    .attr('width', 2 * deleteIconRadius)
-    .attr('height', 2 * deleteIconRadius)
+    .attr('y', 2 * deleteIconY - deleteIconRadius)
+    .attr('width', 2.5 * deleteIconRadius)
+    .attr('height', 2.5 * deleteIconRadius)
     .attr('xlink:href', deleteIconSrc)
 
   // Initialize the links between tables and its columns
