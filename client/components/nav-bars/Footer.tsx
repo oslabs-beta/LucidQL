@@ -32,12 +32,12 @@ const Footer: React.FC = () => {
     event.preventDefault();
     const zip = new JSZip();
 
-    zip.folder('canvasQL').file('package.json', packagejsonFile());
-    zip.folder('canvasQL').file('server.js', serverFile());
-    zip.folder('canvasQL').file('schema.js', schemaFile(data.schema));
-    zip.folder('canvasQL').file('connectToDB.js', connectToDB(data.link));
+    zip.folder('lucidQL').file('package.json', packagejsonFile());
+    zip.folder('lucidQL').file('server.js', serverFile());
+    zip.folder('lucidQL').file('schema.js', schemaFile(data.schema));
+    zip.folder('lucidQL').file('connectToDB.js', connectToDB(data.link));
     zip.generateAsync({ type: 'blob' }).then(function (content: any) {
-      FileSaver.saveAs(content, 'canvasQL.zip');
+      FileSaver.saveAs(content, 'lucidQL.zip');
     });
   };
 
