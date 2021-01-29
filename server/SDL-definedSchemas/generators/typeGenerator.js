@@ -87,10 +87,7 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
         // check if this refTableType has already been added by other tableName
         alreadyAddedType.push(refTableName);
         const refTableType = toPascalCase(singular(refTableName));
-        // example2: refTableType: Person
-        // console.log('\n1-x -----start----- tableName:', tableName);
-        // console.log('Will be add(refTableName): ', refTableName, '\nrefTableType: ', refTableType);
-        // console.log('-----end-----');
+
         relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
         // add 'people: [Person]' and to relation
       }
@@ -98,19 +95,13 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
 
     // Many-to-many relations (so now handling join tables!)
     for (const foreignFKey in foreignFKeys) {
-      // example1(ex: planets_in_films): foreignFKey: film_id(will be filtered out), planet_id (will be added as planets[Planet])
-      // example1: final output will apply on vessels_in_films, people_in_films, species_in_films as well
-      // example2: foreignFKey: species_id(will be filtered out), homeworld_id(will be added to relation as planets: [Planet]):
-      // example2: foreignFKey: species_id(will be filtered out), film_id(will be added to relation as films: [Film]):
+
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) {
         // Do not include original table in output
         if (!alreadyAddedType.includes(refTableName)) {
           // check if this refTableType has already been added by other tableName
           alreadyAddedType.push(refTableName);
           const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
-          // console.log('\nm-m-----start----- tableName:', tableName);
-          // console.log('Will be add(manyToManyTable): ', manyToManyTable, '\nrefTableName: ', refTableName, '\nforeignFKeys: ', foreignFKeys, '\nforeignFKey: ', foreignFKey);
-          // console.log('-----end-----');
           relationships += `\n    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
         }
       }
@@ -121,7 +112,6 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
     const refTableName = object.referenceTable;
     if (refTableName) {
       const refTableType = toPascalCase(singular(refTableName));
-      // console.log(tableName, refTableType, refTableName, refTableType)
       relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
     }
   }
@@ -157,11 +147,8 @@ TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns,
   let typeDef = '';
   for (const columnName in columns) {
     const { dataType, isNullable } = columns[columnName];
-    // if (foreignKeys === null || !foreignKeys[columnName]) { // why !foreignKeys[columnName]?
-      // console.log(foreignKeys, 'columnName is', columnName, 'primaryKey is', primaryKey);
       if (!needId && columnName === primaryKey) {
         // handle mutation on creating
-        // console.log('skipped a loop! columnName & primaryKey is: ', columnName, primaryKey);
         continue; // we don't need Id during creating, so skip this loop when columnName === primaryKey
       }
 
@@ -181,4 +168,3 @@ TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns,
 
 module.exports = TypeGenerator;
 
-// if (typeDef === '') typeDef += '\n'; // change line if it is the first line after mutation declaration

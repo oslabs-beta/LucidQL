@@ -38,11 +38,6 @@ const App: React.FC = () => {
     }
   }
 
-  // const nodeHoverTooltip = React.useCallback((node) => {
-  //   if (node.primary) return (`<h4>Table: ${node.name}</h4><p>(SQL info)</br>Primary Key : ${node.primaryKey}</br>Columns Count : ${node.columnCount}</br>Foreign Keys :</br>${node.foreignKeys.length > 0? node.foreignKeys : 'N/A'}</br>Referenced by :</br>${node.referencedBy.length > 0 ? node.referencedBy : 'N/A'}`)
-  //   else return `<h5>Column: ${node.name}</h5><p>(SQL info)</br>dataType : ${node.dataType}</br>isNullable : ${node.isNullable}</br>charMaxLength : ${node.charMaxLength}</br>columnDefault : ${node.columnDefault}</p>`
-  // }, []);
-
   const Annotation = () => {
     return (
       <div className="annotation">

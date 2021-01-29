@@ -56,7 +56,6 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
   const tooltip = document.querySelector('#graph-tooltip');
   if (!tooltip) {
     const tooltipDiv = document.createElement('div');
-    // tooltipDiv.classList.add(styles.tooltip);
     tooltipDiv.classList.add('tooltip');
     tooltipDiv.style.opacity = '0';
     tooltipDiv.id = 'graph-tooltip';
@@ -78,7 +77,6 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
 
   const nodesArr = tableNodes.concat(columnNodes);
   
-  // const linksArr = referencedBy.concat(pointsTo);
   const linksArr = pointsTo;
   const linesArr = linksToColumns.concat(referencedBy)
 
@@ -86,7 +84,6 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
     .forceSimulation(nodesArr)
     .force('link',d3.forceLink(linksArr).id((d) => d.id).distance(400).strength(1))
     .force('line',d3
-        // .forceLink(linksToColumns)
         .forceLink(linesArr)
         .id((d) => d.id).distance((d) => d.type? 400: 60))
     .force('charge', d3.forceManyBody().strength(-500)) // Negative numbers indicate a repulsive force and positive numbers an attractive force. Strength defaults to -30 upon installation.
@@ -98,29 +95,9 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
   const svg = d3
     .select(container)
     .append('svg')
-    .attr('viewBox', [-width / 2, -height / 2, width, height]) // centering workaround
-    // .call(
-    //   d3.zoom().on('zoom', function (event, d) {
-    //     svg.attr('transform', event.transform);
-    //   })
-    // );
-
-  // svg.call(d3.zoom()
-  //   .scaleExtent([0.5, 5])
-  //   .translateExtent([[0, 0], [width, height]])
-  //   .on('zoom', zoomed));
-  
-  // function zoomed({transform}, d) {
-  //   const zoomState = zoomTransform(svg.node())
-    
-  //   console.log('123', zoomState)
-  //   setCurrentZoomState(zoomState)
-  //   // svg.attr('transform', transform);
-  // }
-
+    .attr('viewBox', [-width / 2, -height / 2, width, height])
   const deleteIcon = svg.append('image')
-    // .attr('x', 2 * width / 5 - deleteIconRadius)
-    // .attr('y', 3 * deleteIconY - deleteIconRadius)
+
     .attr('x', 2 * width / 5 - deleteIconRadius)
     .attr('y', 2 * deleteIconY - deleteIconRadius)
     .attr('width', 2.5 * deleteIconRadius)
@@ -202,7 +179,6 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
     .join('text')
     .attr('text-anchor', 'middle')
     .attr('dominant-baseline', 'central')
-    // .attr('class', (d) => (d.primary ? styles.primary : styles.column))
     .attr('class', (d) => (d.primary ? 'primary_node' : 'column_node'))
     .text((d) => d.primary ? (d.name.length > 7 ? d.name.slice(0, 6)+'..' : d.name) : (d.name.length > 5 ? d.name.slice(0, 5)+'..' : d.name))
     .call(drag(simulation));
@@ -235,9 +211,7 @@ export function runForceGraph(container, data, nodeHoverTooltip, handleDeleteTab
       const dx = d.target.x - d.source.x;
       const dy = d.target.y - d.source.y;
       const dr = Math.sqrt(dx * dx + dy * dy);
-      return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`; // Elliptical Arc (A, a)
-      //    M (start point x), (y)      A x_r  y_radii, 0 rotation, (0, 1)direction, end point ${d.target.x},${d.target.y}
-      //  https://www.sitepoint.com/closer-look-svg-path-data/
+      return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`; 
     });
   });
 

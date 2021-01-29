@@ -71,14 +71,12 @@ const VisGraph: React.FC = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        // console.log(response);
         setGraph(createGraph(response.d3Data));
         setFetched(true);
       });
   };
 
   useEffect(() => {
-    // console.log(graph);
     getData();
   }, [data]);
 

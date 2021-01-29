@@ -25,7 +25,6 @@ pgController.getPGTables = (req, res, next) => {
 // Middleware function for assembling SDL schema
 pgController.assembleSDLSchema = (req, res, next) => {
   try {
-    // console.log(res.locals.tables)
     res.locals.SDLSchema = SchemaGenerator.assembleSchema(res.locals.tables);
     return next();
   } catch (err) {
@@ -44,7 +43,6 @@ pgController.compileData = (req, res, next) => {
 
     for (const table in OriginalTables) {
       const currentTable = OriginalTables[table];
-      // if this is not a joing table
       if (
         !currentTable.foreignKeys ||
         Object.keys(currentTable.columns).length !== Object.keys(currentTable.foreignKeys).length + 1
